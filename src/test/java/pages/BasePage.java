@@ -14,10 +14,11 @@ public class BasePage {
 
     //Common Variables
     AppiumDriver driver;
-    W3CTouchActions finger = new W3CTouchActions(driver);
+    W3CTouchActions finger;
 
     //Constructor
     public BasePage(AppiumDriver driver) {
+        finger = new W3CTouchActions(driver);
         this.driver = driver;
         initializeLocator();
     }
@@ -40,7 +41,7 @@ public class BasePage {
         }
 
         else if (driver instanceof IOSDriver){
-            appLogo = AppiumBy.xpath("//android.widget.ImageView[1]");
+            appLogo = AppiumBy.accessibilityId("assets/src/img/swag-labs-logo.png");
         }
     }
 }

@@ -23,11 +23,11 @@ public class ProductsPage extends BasePage {
     @Override
     public void initializeLocator() {
         if ( driver instanceof AndroidDriver){
-            productsPageTitle = AppiumBy.accessibilityId("android locator");
+            productsPageTitle = AppiumBy.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
         }
 
         else if (driver instanceof IOSDriver){
-            productsPageTitle = AppiumBy.accessibilityId("ios locator");
+            productsPageTitle = AppiumBy.xpath("//XCUIElementTypeStaticText[@label=\"PRODUCTS\"]");
         }
 
     }

@@ -24,11 +24,14 @@ public class LoginPage extends BasePage {
     //Initialize Locators Based on Android or IOS
     public void initializeLocator(){
         if ( driver instanceof AndroidDriver){
-            userNameField = AppiumBy.accessibilityId("android locator");
+            userNameField = AppiumBy.accessibilityId("test-Username");
+            passwordField = AppiumBy.accessibilityId("test-Password");
+            loginButton   = AppiumBy.accessibilityId("test-LOGIN");
         }
-
         else if (driver instanceof IOSDriver){
-            userNameField = AppiumBy.accessibilityId("ios locator");
+            userNameField = AppiumBy.accessibilityId("test-Username");
+            passwordField = AppiumBy.accessibilityId("test-Password");
+            loginButton   = AppiumBy.accessibilityId("");
         }
     }
 
