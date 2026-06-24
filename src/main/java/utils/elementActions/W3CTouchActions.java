@@ -80,31 +80,31 @@ public class W3CTouchActions {
     @Step
     public void doubleTap(By locator) {
         try{
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Find the element by locator
-        WebElement element = driver.findElement(locator);
+            //Find the element by locator
+            WebElement element = driver.findElement(locator);
 
-        //Find the Coordinates of Center of Element
-        Point elementCenterCoordinates = getElementCenter(element);
+            //Find the Coordinates of Center of Element
+            Point elementCenterCoordinates = getElementCenter(element);
 
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
+            //Declare the finger object and sequence object
+            PointerInput finger = new PointerInput(TOUCH, "finger 1");
+            Sequence sequence = new Sequence(finger, 0);
 
-        //List all moves taken by the finger to make the double tap action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), elementCenterCoordinates.getX(), elementCenterCoordinates.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(100)));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(List.of(sequence));
+            //List all moves taken by the finger to make the double tap action
+            sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), elementCenterCoordinates.getX(), elementCenterCoordinates.getY()));
+            sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            sequence.addAction(new Pause(finger, Duration.ofMillis(100)));
+            sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            driver.perform(List.of(sequence));
 
-        logInfoStep("Double Tapping on Element [%s]".formatted(locator));
+            logInfoStep("Double Tapping on Element [%s]".formatted(locator));
         }catch (Exception e){
             logErrorStep("Failed to Double Tap on Element [%s]".formatted(locator),e);
         }
@@ -360,7 +360,7 @@ public class W3CTouchActions {
             logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         } catch (Exception e) {
-            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
+            logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
         }
     }
@@ -377,7 +377,7 @@ public class W3CTouchActions {
             return true;
 
         } catch (TimeoutException e) {
-            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
+            logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
         }
     }
@@ -394,7 +394,7 @@ public class W3CTouchActions {
             return false;
 
         } catch (TimeoutException e) {
-            logInfoStep("The Element [%s] is Displayed".formatted(locator));
+            logErrorStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         }
 

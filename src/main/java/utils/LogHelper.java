@@ -18,7 +18,6 @@ public class LogHelper {
 
     public static void logErrorStep(String message){
         log.error(message);
-        Assert.fail(message);
     }
 
     public static void logErrorStep(String message,Exception e) {

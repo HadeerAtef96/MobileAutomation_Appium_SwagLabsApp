@@ -3,8 +3,10 @@ package utils;
 import io.qameta.allure.Allure;
 import io.qameta.allure.restassured.AllureRestAssured;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 import static utils.LogHelper.logErrorStep;
 
@@ -33,6 +35,23 @@ public class AllureReportHelper {
         }catch (Exception e){
             logErrorStep("Failed to Log API Requests to Allure Report", e);
             return null;
+        }
+    }
+
+    public static void autoOpenAllureReport(){
+        try{
+            if(System.getProperty("os.name").contains("Windows")){
+                Runtime.getRuntime().exec(System.getProperty("user.dir")+"/Open_Allure_Report_Windows.bat");
+            }
+
+            else if(System.getProperty("os.name").contains("Mac")){
+                String script = System.getProperty("user.dir") + "/Open_Allure_Report_Mac.sh.sh";
+
+                ProcessBuilder pb = new ProcessBuilder("bash", script);
+                Process process = pb.start();
+            }
+        }catch (Exception e){
+            logErrorStep("Failed to Open Allure Report", e);
         }
     }
 }
