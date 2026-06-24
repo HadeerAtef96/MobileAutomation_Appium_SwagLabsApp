@@ -12,6 +12,10 @@ public class LogHelper {
         log.info(message);
     }
 
+    public static void logWarningStep(String message){
+        log.warn(message);
+    }
+
     public static void logErrorStep(String message){
         log.error(message);
         Assert.fail(message);

@@ -79,6 +79,7 @@ public class W3CTouchActions {
 
     @Step
     public void doubleTap(By locator) {
+        try{
         //wait until the element is visible on page on GUI
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         //wait until the element is enabled or clickable on page
@@ -102,6 +103,12 @@ public class W3CTouchActions {
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
         sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(List.of(sequence));
+
+        logInfoStep("Double Tapping on Element [%s]".formatted(locator));
+        }catch (Exception e){
+            logErrorStep("Failed to Double Tap on Element [%s]".formatted(locator),e);
+        }
+
     }
 
     public void doubleTap(By locator, String direction) {
@@ -297,21 +304,28 @@ public class W3CTouchActions {
 
     @Step
     public void type(By locator, String value) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try{
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //take the Type action inside wait with lambda function
-        wait.until(d -> {
-            driver.findElement(locator).clear();
-            return true;
-        });
+            //take the Type action inside wait with lambda function
+            wait.until(d -> {
+                driver.findElement(locator).clear();
+                return true;
+            });
 
-        wait.until(d -> {
-            driver.findElement(locator).sendKeys(value);
-            return true;
-        });
+            wait.until(d -> {
+                driver.findElement(locator).sendKeys(value);
+                return true;
+            });
+
+            logInfoStep("Typing text [%s] on Element [%s]".formatted(value,locator));
+        }catch (Exception e){
+            logErrorStep("Failed to Type text [%s] on Element [%s]".formatted(value,locator),e);
+        }
+
     }
 
     public void type(By locator, String value, String direction) {
@@ -343,8 +357,10 @@ public class W3CTouchActions {
         //take the isDisplayed action inside wait with lambda function
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         } catch (Exception e) {
+            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
         }
     }
@@ -357,9 +373,11 @@ public class W3CTouchActions {
                 return driver.findElement(locator).isDisplayed();
             });
 
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
 
         } catch (TimeoutException e) {
+            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
         }
     }
@@ -372,10 +390,11 @@ public class W3CTouchActions {
                 singleSwipeIntoScreen(direction);
                 return driver.findElement(locator).isDisplayed();
             });
-
+            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
 
         } catch (TimeoutException e) {
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         }
 

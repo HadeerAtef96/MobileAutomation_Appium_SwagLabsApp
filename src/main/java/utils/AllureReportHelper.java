@@ -1,7 +1,9 @@
 package utils;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.restassured.AllureRestAssured;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 import static utils.LogHelper.logErrorStep;

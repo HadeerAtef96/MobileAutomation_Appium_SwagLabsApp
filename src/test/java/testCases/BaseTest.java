@@ -1,10 +1,13 @@
 package testCases;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utils.AllureReportHelper;
 import utils.AppiumFactory;
+import utils.Screenshots;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +41,17 @@ public class BaseTest {
     }
 
     @AfterMethod (alwaysRun = true)
-    public void afterMethod() {
+    public void afterMethod(ITestResult result) {
+
+        //Capture Screenshot
+       if (result.getStatus() == 1){
+           Screenshots.captureSuccess(driver,result.getMethod().getMethodName());
+       }
+
+       else if (result.getStatus() == 2){
+           Screenshots.captureFailure(driver,result.getMethod().getMethodName());
+       }
+
         //Close the Application
         AppiumFactory.closeApp();
     }
