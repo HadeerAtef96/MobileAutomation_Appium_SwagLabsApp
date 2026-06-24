@@ -138,10 +138,10 @@ public class AppiumFactory {
                 ((InteractsWithApps) driver).terminateApp(appID);
 
                 mydriver.quit();
-                logInfoStep("Closing the App [%s]".formatted(getPropertiesValue("appPackage")));
+                logInfoStep("Closing the App [%s]".formatted(getPropertiesValue("android_appPackage")));
             } else if (driver instanceof IOSDriver mydriver) {
                 mydriver.quit();
-                logInfoStep("Closing the App [%s]".formatted(getPropertiesValue("bundleId")));
+                logInfoStep("Closing the App [%s]".formatted(getPropertiesValue("ios_bundleId")));
 
             }
 

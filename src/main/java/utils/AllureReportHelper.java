@@ -45,7 +45,7 @@ public class AllureReportHelper {
             }
 
             else if(System.getProperty("os.name").contains("Mac")){
-                String script = System.getProperty("user.dir") + "/Open_Allure_Report_Mac.sh.sh";
+                String script = System.getProperty("user.dir") + "/Open_Allure_Report_Mac.sh";
 
                 ProcessBuilder pb = new ProcessBuilder("bash", script);
                 Process process = pb.start();
