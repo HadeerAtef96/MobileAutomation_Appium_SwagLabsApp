@@ -22,13 +22,16 @@ public class Screenshots {
             // set the file name of the screenshot
             String fileName = "Successful Screenshot for [%s]".formatted(testName);
 
-            // take the screenshot
+            // take the screenshot by driver
             var screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
-            //upload the screenshot into allure report
-            Allure.addAttachment(fileName, resizeScreenshot(screenshot, 300));
+            //Resize the Screenshot before upload
+            InputStream screenshot_resized = resizeScreenshot(screenshot, 300);
 
-            //log the step into console
+            //upload the screenshot into allure report
+            Allure.addAttachment(fileName, screenshot_resized );
+
+            //log the action into console
             LogHelper.logInfoStep("Capturing Screenshot for Succeeded Scenario");
 
         } catch (Exception e) {
@@ -38,12 +41,19 @@ public class Screenshots {
 
     public static void captureFailure(WebDriver driver,String testName) {
         try {
+            // set the file name of the screenshot
             String fileName = "Failed Screenshot for [%s]".formatted(testName);
 
+            // take the screenshot by driver
             var screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
-            Allure.addAttachment(fileName, resizeScreenshot(screenshot, 300));
+            //Resize the Screenshot before upload
+            InputStream screenshot_resized = resizeScreenshot(screenshot, 300);
 
+            //upload the screenshot into allure report
+            Allure.addAttachment(fileName, screenshot_resized );
+
+            //log the action into console
             LogHelper.logInfoStep("Capturing Screenshot for Failed Scenario");
 
         } catch (Exception e) {
