@@ -2,6 +2,8 @@ package pages;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -15,7 +17,20 @@ public class ProductsPage extends BasePage {
     }
 
     //Locators
-    private By productsPageTitle = AppiumBy.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
+    private By productsPageTitle;
+
+    //Initialize Locators Based on Android or IOS
+    @Override
+    public void initializeLocator() {
+        if ( driver instanceof AndroidDriver){
+            productsPageTitle = AppiumBy.accessibilityId("android locator");
+        }
+
+        else if (driver instanceof IOSDriver){
+            productsPageTitle = AppiumBy.accessibilityId("ios locator");
+        }
+
+    }
 
     //Actions
 

@@ -1,7 +1,10 @@
 package pages;
 
+import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
@@ -14,9 +17,20 @@ public class LoginPage extends BasePage {
     }
 
     //Locators
-    private By userNameField = AppiumBy.accessibilityId("test-Username");
-    private By passwordField = AppiumBy.accessibilityId("test-Password");
-    private By loginButton = AppiumBy.accessibilityId("test-LOGIN");
+    private By userNameField;
+    private By passwordField ;
+    private By loginButton ;
+
+    //Initialize Locators Based on Android or IOS
+    public void initializeLocator(){
+        if ( driver instanceof AndroidDriver){
+            userNameField = AppiumBy.accessibilityId("android locator");
+        }
+
+        else if (driver instanceof IOSDriver){
+            userNameField = AppiumBy.accessibilityId("ios locator");
+        }
+    }
 
     //Actions
     @Step

@@ -35,12 +35,12 @@ public class AppiumFactory {
             switch (getPropertiesValue("platformType")) {
                 case "Android":
                     driver = new AndroidDriver(getAppiumServerURL(), getAndroidCapabilities());
-                    logInfoStep("Starting the App [%s]".formatted(getPropertiesValue("appPackage")));
+                    logInfoStep("Starting the App [%s]".formatted(getPropertiesValue("android_appPackage")));
                     break;
 
                 case "IOS":
                     driver = new IOSDriver(getAppiumServerURL(), getIOSCapabilities());
-                    logInfoStep("Starting the App [%s]".formatted(getPropertiesValue("bundleId")));
+                    logInfoStep("Starting the App [%s]".formatted(getPropertiesValue("ios_bundleId")));
                     break;
             }
 
