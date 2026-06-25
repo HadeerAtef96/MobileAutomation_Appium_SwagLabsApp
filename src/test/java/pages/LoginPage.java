@@ -31,7 +31,7 @@ public class LoginPage extends BasePage {
         else if (driver instanceof IOSDriver){
             userNameField = AppiumBy.accessibilityId("test-Username");
             passwordField = AppiumBy.accessibilityId("test-Password");
-            loginButton   = AppiumBy.accessibilityId("");
+            loginButton   = AppiumBy.accessibilityId("LOGIN");
         }
     }
 
