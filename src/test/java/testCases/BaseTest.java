@@ -6,6 +6,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utils.AllureReportHelper;
 import utils.AppiumFactory;
+import utils.JsonReader;
 import utils.Screenshots;
 
 import java.io.File;
@@ -16,10 +17,11 @@ import static utils.PropertiesReader.*;
 public class BaseTest {
     //Objects and Variables
     AppiumDriver driver;
+    JsonReader json = new JsonReader("src/test/resources/TestData/testData.json");
 
     @BeforeSuite (alwaysRun = true)
     public void beforeSuite() {
-        //Load All Properties and save it into System
+        //Load All Properties and save it into System Properties
         loadConfigurationsIntoSystemProperties();
 
         //Start the Appium Server

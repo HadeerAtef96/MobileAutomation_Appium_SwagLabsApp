@@ -6,11 +6,12 @@ import pages.LoginPage;
 import pages.ProductsPage;
 import utils.JsonReader;
 
+import static utils.DataGenerator.generateRandomName;
+import static utils.DataGenerator.generateRandomPassword;
+
 public class LoginTests extends BaseTest {
 
-    JsonReader json = new JsonReader("src/test/resources/TestData/testData.json");
-
-    @Test (groups = {"positive"})
+    @Test (groups = {"Positive"})
     public void loginWithValidUser(){
 
         new LoginPage(driver)
@@ -19,7 +20,26 @@ public class LoginTests extends BaseTest {
                 .clickOnLoginButton();
 
         new ProductsPage(driver)
-                .verifyProductsPageTitleIsDisplayed();
+                 .verifyProductsPageTitleIsDisplayed();
 
     }
+
+    @Test (groups = {"Negative"})
+    public void loginWithInvalidUser(){
+        new LoginPage(driver)
+                .typeUsername(generateRandomName())
+                .typePassword(generateRandomPassword())
+                .clickOnLoginButton()
+                .verifyErrorMessageIsDisplayed(json.readTestData("errorMessages.invalidUser"));
+    }
+
+    @Test (groups = {"Negative"})
+    public void loginWithLockedUser(){
+        new LoginPage(driver)
+                .typeUsername(json.readTestData("lockedUser.username"))
+                .typePassword(json.readTestData("lockedUser.password"))
+                .clickOnLoginButton()
+                .verifyErrorMessageIsDisplayed(json.readTestData("errorMessages.lockedUser"));
+    }
+
 }

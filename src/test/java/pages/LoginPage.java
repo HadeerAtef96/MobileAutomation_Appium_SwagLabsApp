@@ -7,6 +7,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 
 public class LoginPage extends BasePage {
     //Variables
@@ -20,6 +21,7 @@ public class LoginPage extends BasePage {
     private By userNameField;
     private By passwordField ;
     private By loginButton ;
+    private By invalidUserErrorMessage;
 
     //Initialize Locators Based on Android or IOS
     public void initializeLocator(){
@@ -27,11 +29,13 @@ public class LoginPage extends BasePage {
             userNameField = AppiumBy.accessibilityId("test-Username");
             passwordField = AppiumBy.accessibilityId("test-Password");
             loginButton   = AppiumBy.accessibilityId("test-LOGIN");
+            invalidUserErrorMessage = AppiumBy.xpath("//android.view.ViewGroup[@content-desc=\"test-Error message\"]//android.widget.TextView");
         }
         else if (driver instanceof IOSDriver){
             userNameField = AppiumBy.accessibilityId("test-Username");
             passwordField = AppiumBy.accessibilityId("test-Password");
             loginButton   = AppiumBy.accessibilityId("LOGIN");
+            invalidUserErrorMessage = AppiumBy.accessibilityId("");
         }
     }
 
@@ -55,5 +59,11 @@ public class LoginPage extends BasePage {
     }
 
     //Validations
+    public LoginPage verifyErrorMessageIsDisplayed(String expected){
+        Assert.assertTrue( finger.isElementDisplayed(invalidUserErrorMessage));
+        String actual =finger.readTextFromElement(invalidUserErrorMessage);
+        Assert.assertEquals(actual,expected);
+        return this;
+    }
 
 }

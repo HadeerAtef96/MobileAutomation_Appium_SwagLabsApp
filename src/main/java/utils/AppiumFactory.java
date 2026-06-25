@@ -75,6 +75,7 @@ public class AppiumFactory {
             // Application Capabilities
             option.setAppPackage(getPropertiesValue("android_appPackage"));
             option.setAppActivity(getPropertiesValue("android_appActivity"));
+            option.setApp(System.getProperty("user.dir") + "/src/test/resources/Apps/" + getPropertiesValue("android_appInstaller"));
 
             logInfoStep("Getting Android Capabilities.....");
             return option;
@@ -110,6 +111,7 @@ public class AppiumFactory {
 
             // Application Capabilities
             option.setBundleId(getPropertiesValue("ios_bundleId"));
+            option.setApp(System.getProperty("user.dir") + "/src/test/resources/Apps/" + getPropertiesValue("ios_appInstaller"));
 
             logInfoStep("Getting IOS Capabilities.....");
             return option;
