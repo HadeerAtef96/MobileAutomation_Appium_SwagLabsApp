@@ -213,20 +213,20 @@ public class W3CTouchActions {
 
             //Find the element by locator
             WebElement element = driver.findElement(locator);
-            int elementHeight = driver.findElement(locator).getSize().getHeight();
+            int elementWidth = driver.findElement(locator).getSize().getWidth();
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
-            Point start1 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() - 50);
-            Point start2 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() + 50);
+            Point start1 = new Point(elementCenterCoordinates.getX()-50, elementCenterCoordinates.getY());
+            Point start2 = new Point(elementCenterCoordinates.getX()+50, elementCenterCoordinates.getY());
 
             //Find the end point of each finger
-            int x = start1.getX();
-            int y = (int) (start1.getY() - zoomingPercentage* ((double) elementHeight /2));
+            int x = (int) (start1.getX()  + zoomingPercentage* ((double) elementWidth /2));
+            int y =  start1.getY() ;
             Point end1 = new Point(x, y);
 
-            int a = start2.getX();
-            int b = (int) (start2.getY() + zoomingPercentage* ((double) elementHeight /2));
+            int a = (int) (start2.getX() - zoomingPercentage* ((double) elementWidth /2));
+            int b = start2.getY();
             Point end2 = new Point(a, b);
 
             //Declare the finger object and sequence object for Finger 1
@@ -277,20 +277,20 @@ public class W3CTouchActions {
 
             //Find the element by locator
             WebElement element = driver.findElement(locator);
-            int elementHeight = driver.findElement(locator).getSize().getHeight();
+            int elementWidth = driver.findElement(locator).getSize().getWidth();
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
-            Point start1 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() - 50);
-            Point start2 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() + 50);
+            Point start1 = new Point(elementCenterCoordinates.getX() -50, elementCenterCoordinates.getY());
+            Point start2 = new Point(elementCenterCoordinates.getX() +50, elementCenterCoordinates.getY());
 
             //Find the end point of each finger
-            int x = start1.getX();
-            int y = (int) (start1.getY() - zoomingPercentage* ((double) elementHeight /2));
+            int x = (int) (start1.getX() + zoomingPercentage* ((double) elementWidth /2));
+            int y = start1.getY();
             Point end1 = new Point(x, y);
 
-            int a = start2.getX();
-            int b = (int) (start2.getY() + zoomingPercentage* ((double) elementHeight /2));
+            int a = (int) (start2.getX() - zoomingPercentage* ((double) elementWidth /2));
+            int b = start2.getY();
             Point end2 = new Point(a, b);
 
             //Declare the finger object and sequence object for Finger 1
