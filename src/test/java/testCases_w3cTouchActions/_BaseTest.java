@@ -1,4 +1,4 @@
-package testCases;
+package testCases_w3cTouchActions;
 
 import io.appium.java_client.AppiumDriver;
 

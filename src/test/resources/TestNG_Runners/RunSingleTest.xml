@@ -5,7 +5,7 @@
 
     <test name="Single Test" enabled="true">
         <classes>
-            <class name = "testCases.LoginTests">
+            <class name = "testCases_w3cTouchActions.LoginTests">
                 <methods>
                     <include name="loginWithValidUser" />
                 </methods>

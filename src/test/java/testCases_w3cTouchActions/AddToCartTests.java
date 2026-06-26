@@ -1,10 +1,10 @@
-package testCases;
+package testCases_w3cTouchActions;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.CartPage;
-import pages.LoginPage;
-import pages.ProductsPage;
+import page_w3cTouchActions.CartPage;
+import page_w3cTouchActions.LoginPage;
+import page_w3cTouchActions.ProductsPage;
 
 public class AddToCartTests extends _BaseTest {
 

@@ -5,15 +5,15 @@
 
     <test name="All Positive And Negative Test" enabled="true">
         <classes>
-            <class name = "testCases.CreateNoteTests"> </class>
-            <class name = "testCases.DeleteNoteTests"> </class>
-            <class name = "testCases.GetAllNotesTests"> </class>
-            <class name = "testCases.GetNoteTests"> </class>
-            <class name = "testCases.GetProfileTests"> </class>
-            <class name = "testCases.LoginTests"> </class>
-            <class name = "testCases.RegisterTests"> </class>
-            <class name = "testCases.UpdateNoteTests"> </class>
-            <class name = "testCases.UpdateProfileTests"> </class>
+            <class name = "testCases_w3cTouchActions.CreateNoteTests"> </class>
+            <class name = "testCases_w3cTouchActions.DeleteNoteTests"> </class>
+            <class name = "testCases_w3cTouchActions.GetAllNotesTests"> </class>
+            <class name = "testCases_w3cTouchActions.GetNoteTests"> </class>
+            <class name = "testCases_w3cTouchActions.GetProfileTests"> </class>
+            <class name = "testCases_w3cTouchActions.LoginTests"> </class>
+            <class name = "testCases_w3cTouchActions.RegisterTests"> </class>
+            <class name = "testCases_w3cTouchActions.UpdateNoteTests"> </class>
+            <class name = "testCases_w3cTouchActions.UpdateProfileTests"> </class>
         </classes>
     </test>
 

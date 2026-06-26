@@ -12,7 +12,7 @@
         </groups>
 
         <packages>
-            <package name="testCases"/>
+            <package name="testCases_w3cTouchActions"/>
         </packages>
 
     </test>

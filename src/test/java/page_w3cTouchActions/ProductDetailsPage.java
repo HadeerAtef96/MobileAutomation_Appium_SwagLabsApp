@@ -1,6 +1,5 @@
-package pages;
+package page_w3cTouchActions;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -50,14 +49,14 @@ public class ProductDetailsPage extends _BasePage {
     }
 
     @Step
-    public ProductDetailsPage zoomInProductImage(double zoomingDistance){
-        finger.zoomIn(productImage,zoomingDistance);
+    public ProductDetailsPage zoomInProductImage(double zoomingPercentage){
+        finger.zoomIn(productImage,zoomingPercentage);
         return this;
     }
 
     @Step
-    public ProductDetailsPage zoomOutProductImage(double zoomingDistance){
-        finger.zoomOut(productImage,zoomingDistance);
+    public ProductDetailsPage zoomOutProductImage(double zoomingPercentage){
+        finger.zoomOut(productImage,zoomingPercentage);
         return this;
     }
 

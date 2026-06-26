@@ -1,11 +1,10 @@
-package testCases;
+package testCases_w3cTouchActions;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.CartPage;
-import pages.LoginPage;
-import pages.ProductDetailsPage;
-import pages.ProductsPage;
+import page_w3cTouchActions.LoginPage;
+import page_w3cTouchActions.ProductDetailsPage;
+import page_w3cTouchActions.ProductsPage;
 
 public class ProductsTests extends _BaseTest {
 
@@ -43,9 +42,9 @@ public class ProductsTests extends _BaseTest {
                 .selectProduct(json.readTestData("products[0].name"), null);
 
         new ProductDetailsPage(driver)
-                .zoomInProductImage(0.75)
+                .zoomInProductImage(1)
                 .verifyProductImageIsDisplayed()
-                .zoomOutProductImage(0.75)
+                .zoomOutProductImage(1)
                 .verifyProductImageIsDisplayed();
     }
 }
