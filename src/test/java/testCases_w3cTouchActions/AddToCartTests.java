@@ -40,7 +40,6 @@ public class AddToCartTests extends _BaseTest {
     @Test(groups = {"Positive"})
     public void addProductToCartByDragDrop() {
 
-
         new ProductsPage(driver)
                 .addProductToCartByDragDrop(json.readTestData("products[0].name"), null)
                 .addProductToCartByDragDrop(json.readTestData("products[1].name"), "Down")

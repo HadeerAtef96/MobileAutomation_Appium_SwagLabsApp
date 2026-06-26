@@ -35,6 +35,9 @@
 
   "errorMessages": {
     "invalidUser": "Username and password do not match any user in this service.",
-    "lockedUser": "Sorry, this user has been locked out."
+    "lockedUser": "Sorry, this user has been locked out.",
+    "emptyFirstName": "First Name is required",
+    "emptyLastName": "Last Name is required",
+    "emptyPostalCode": "Postal Code is required"
   }
 }

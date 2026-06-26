@@ -31,7 +31,7 @@ public class W3CTouchActions {
         this.driver = driver;
         //define the wait type and wait configuration
         wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(20))
+                .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(300))
                 .ignoring(ElementNotInteractableException.class)
                 .ignoring(NoSuchElementException.class)
@@ -220,21 +220,14 @@ public class W3CTouchActions {
             Point start1 = new Point(elementCenterCoordinates.getX() -elementWidth/6, elementCenterCoordinates.getY());
             Point start2 = new Point(elementCenterCoordinates.getX() +elementWidth/6, elementCenterCoordinates.getY());
 
-            System.out.println("start1: "+start1);
-            System.out.println("start2: "+start2);
-
             //Find the end point of each finger
             int x = (int) (start1.getX() - zoomingPercentage* ((double) elementWidth /3));
             int y = start1.getY();
             Point end1 = new Point(x, y);
 
-            System.out.println("endpoint1: "+end1);
-
             int a = (int) (start2.getX() + zoomingPercentage* ((double) elementWidth /3));
             int b = start2.getY();
             Point end2 = new Point(a, b);
-
-            System.out.println("endpoint2: "+end2);
 
             //Declare the finger object and sequence object for Finger 1
             PointerInput finger1 = new PointerInput(TOUCH, "finger-1");
@@ -260,7 +253,6 @@ public class W3CTouchActions {
 
             //Execute the 2 Sequences
             driver.perform(List.of(sequence1, sequence2));
-
             logInfoStep("Zooming In into the Element [%s]".formatted(locator));
         } catch (Exception e) {
             logErrorStep("Failed to Zoom In into the Element [%s]".formatted(locator), e);
@@ -291,21 +283,14 @@ public class W3CTouchActions {
             Point start1 = new Point(elementCenterCoordinates.getX() -elementWidth/6, elementCenterCoordinates.getY());
             Point start2 = new Point(elementCenterCoordinates.getX() +elementWidth/6, elementCenterCoordinates.getY());
 
-            System.out.println("start1: "+start1);
-            System.out.println("start2: "+start2);
-
             //Find the end point of each finger
             int x = (int) (start1.getX() - zoomingPercentage* ((double) elementWidth /3));
             int y = start1.getY();
             Point end1 = new Point(x, y);
 
-            System.out.println("endpoint1: "+end1);
-
             int a = (int) (start2.getX() + zoomingPercentage* ((double) elementWidth /3));
             int b = start2.getY();
             Point end2 = new Point(a, b);
-
-            System.out.println("endpoint2: "+end2);
 
             //Declare the finger object and sequence object for Finger 1
             PointerInput finger1 = new PointerInput(TOUCH, "finger-1");
@@ -442,11 +427,11 @@ public class W3CTouchActions {
                 singleSwipeIntoScreen(direction);
                 return driver.findElement(locator).isDisplayed();
             });
-            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
+            logErrorStep("The Element [%s] is Displayed".formatted(locator));
             return false;
 
         } catch (TimeoutException e) {
-            logErrorStep("The Element [%s] is Displayed".formatted(locator));
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         }
 

@@ -52,7 +52,7 @@ public class _BaseTest {
         }
 
         //Close the Application
-        AppiumFactory.closeApp();
+//        AppiumFactory.closeApp();
     }
 
     @AfterSuite (alwaysRun = true)

@@ -55,6 +55,12 @@ public class DataGenerator {
         return company;
     }
 
+    public static String generateRandomPostalCode() {
+        String code = faker.address().zipCode();
+        logInfoStep("Generating Random Postal Code [%s]".formatted(code));
+        return code;
+    }
+
     public static String generateItemFromList(List<String> list)
     {
         int randomIndex = new Random().nextInt(list.size());
