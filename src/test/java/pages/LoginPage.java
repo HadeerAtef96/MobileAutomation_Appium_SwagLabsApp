@@ -15,6 +15,7 @@ public class LoginPage extends BasePage {
     //Constructor
     public LoginPage (AppiumDriver driver){
         super(driver);
+        super.initializeLocator();
     }
 
     //Locators
@@ -59,6 +60,7 @@ public class LoginPage extends BasePage {
     }
 
     //Validations
+    @Step
     public LoginPage verifyErrorMessageIsDisplayed(String expected){
         Assert.assertTrue( finger.isElementDisplayed(invalidUserErrorMessage));
         String actual =finger.readTextFromElement(invalidUserErrorMessage);

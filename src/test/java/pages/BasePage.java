@@ -23,9 +23,30 @@ public class BasePage {
         initializeLocator();
     }
 
-    //Header
-    protected By appLogo;
+    //Header Locators
+    private By appLogo;
+    private By cartIcon;
 
+    //Initialize Locators Based on Android or IOS
+    public void initializeLocator(){
+        if ( driver instanceof AndroidDriver){
+            appLogo = AppiumBy.xpath("//android.widget.ImageView[1]");
+            cartIcon = AppiumBy.accessibilityId("test-Cart");
+        }
+
+        else if (driver instanceof IOSDriver){
+            appLogo = AppiumBy.accessibilityId("assets/src/img/swag-labs-logo.png");
+        }
+    }
+
+    //Header Actions
+    @Step
+    public BasePage navigateToCart(){
+        finger.tap(cartIcon);
+        return this;
+    }
+
+    //Header Validation
     @Step
     public BasePage verifyLogoIsDisplayed(){
         boolean actualStatus = finger.isElementDisplayed(appLogo);
@@ -34,14 +55,5 @@ public class BasePage {
     }
 
 
-    //Initialize Locators Based on Android or IOS
-    public void initializeLocator(){
-        if ( driver instanceof AndroidDriver){
-            appLogo = AppiumBy.xpath("//android.widget.ImageView[1]");
-        }
 
-        else if (driver instanceof IOSDriver){
-            appLogo = AppiumBy.accessibilityId("assets/src/img/swag-labs-logo.png");
-        }
-    }
 }

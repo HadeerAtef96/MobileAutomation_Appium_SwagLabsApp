@@ -15,6 +15,7 @@ public class ProductsPage extends BasePage {
     //Constructor
     public ProductsPage(AppiumDriver driver){
         super(driver);
+        super.initializeLocator();
     }
 
     //Locators
@@ -36,10 +37,14 @@ public class ProductsPage extends BasePage {
     }
 
     //Actions
-    public ProductsPage addProductToCartByButton(String productName){
+    @Step
+    public ProductsPage addProductToCartByButton(String productName,String direction){
+        //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
+        //we need to initialize the locators again because we make change in the locator
         initializeLocator();
-        finger.tap(addToCartButton,"Down");
+        //we take tap action through utils or w3c touch actions
+        finger.tap(addToCartButton,direction);
         return this;
     }
 

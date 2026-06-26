@@ -122,7 +122,7 @@ public class W3CTouchActions {
     }
 
     @Step
-    public void TapAndHold(By locator) {
+    public void tapAndHold(By locator) {
         try {
             //wait until the element is visible on page on GUI
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -153,11 +153,11 @@ public class W3CTouchActions {
 
     }
 
-    public void TapAndHold(By locator, String direction) {
+    public void tapAndHold(By locator, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
-        TapAndHold(locator);
+        tapAndHold(locator);
     }
 
     @Step
@@ -470,6 +470,15 @@ public class W3CTouchActions {
                 a = x - screenSize.getWidth() / 3;
                 b = y;
                 break;
+
+            case null:
+                a = x;
+                b = y;
+                break;
+
+            default:
+                logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null");
+                break;
         }
 
         endPoint = new Point(a, b);
@@ -524,6 +533,15 @@ public class W3CTouchActions {
             case "Right":
                 a = x - elementWidth / 3;
                 b = y;
+                break;
+
+            case null:
+                a = x;
+                b = y;
+                break;
+
+            default:
+                logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null");
                 break;
         }
 
