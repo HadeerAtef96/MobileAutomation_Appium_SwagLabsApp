@@ -8,7 +8,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class CartPage extends BasePage {
+public class CartPage extends _BasePage {
     //Variables
     String productName;
 

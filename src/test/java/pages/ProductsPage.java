@@ -8,7 +8,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class ProductsPage extends BasePage {
+public class ProductsPage extends _BasePage {
     //Variables
     String productName;
 
@@ -20,14 +20,20 @@ public class ProductsPage extends BasePage {
 
     //Locators
     private By productsPageTitle;
+    private By productNameLocator;
     private By addToCartButton;
+    private By dragButton;
+    private By dropButton;
 
     //Initialize Locators Based on Android or IOS
     @Override
     public void initializeLocator() {
         if ( driver instanceof AndroidDriver){
             productsPageTitle = AppiumBy.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
-            addToCartButton = AppiumBy.xpath("//android.widget.TextView[@content-desc=\"test-Item title\" and @text=\"%s\"]/following-sibling::android.view.ViewGroup[@content-desc=\"test-ADD TO CART\"]".formatted(productName));
+            productNameLocator = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]".formatted(productName));
+            addToCartButton = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]/following-sibling::android.view.ViewGroup[@content-desc=\"test-ADD TO CART\"]".formatted(productName));
+            dragButton = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]/following-sibling::android.view.ViewGroup[@content-desc=\"test-Drag Handle\"]//android.widget.TextView".formatted(productName));
+            dropButton = AppiumBy.accessibilityId("test-Cart drop zone");
         }
 
         else if (driver instanceof IOSDriver){
@@ -45,6 +51,28 @@ public class ProductsPage extends BasePage {
         initializeLocator();
         //we take tap action through utils or w3c touch actions
         finger.tap(addToCartButton,direction);
+        return this;
+    }
+
+    @Step
+    public ProductsPage addProductToCartByDragDrop(String productName,String direction){
+        //we pass productName from test case, then we convert it from local variable to global variable
+        this.productName = productName;
+        //we need to initialize the locators again because we make change in the locator
+        initializeLocator();
+        //we take tap action through utils or w3c touch actions
+        finger.dragAndDrop(dragButton,dropButton,direction);
+        return this;
+    }
+
+    @Step
+    public ProductsPage selectProduct(String productName, String direction){
+        //we pass productName from test case, then we convert it from local variable to global variable
+        this.productName = productName;
+        //we need to re-initialize the locators again because we make change in the locator
+        initializeLocator();
+        //we take tap action through utils or w3c touch actions
+        finger.tap(productNameLocator,direction);
         return this;
     }
 

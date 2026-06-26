@@ -1,15 +1,13 @@
 package testCases;
 
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.ProductsPage;
-import utils.JsonReader;
 
 import static utils.DataGenerator.generateRandomName;
 import static utils.DataGenerator.generateRandomPassword;
 
-public class LoginTests extends BaseTest {
+public class LoginTests extends _BaseTest {
 
     @Test (groups = {"Positive"})
     public void loginWithValidUser(){

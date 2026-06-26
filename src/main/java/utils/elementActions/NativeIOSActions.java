@@ -1,10 +1,8 @@
 package utils.elementActions;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -12,13 +10,14 @@ import org.openqa.selenium.support.ui.Wait;
 
 import java.time.Duration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.openqa.selenium.interactions.PointerInput.Kind.TOUCH;
-import static org.openqa.selenium.interactions.PointerInput.Origin.viewport;
+import static utils.LogHelper.logErrorStep;
+import static utils.LogHelper.logInfoStep;
+
 
 public class NativeIOSActions {
+
     //Define Global Variables
     AppiumDriver driver;
     Wait<AppiumDriver> wait;
@@ -31,23 +30,33 @@ public class NativeIOSActions {
         wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(20))
                 .pollingEvery(Duration.ofMillis(300))
-                .ignoring(ElementNotInteractableException.class);
+                .ignoring(ElementNotInteractableException.class)
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
     }
 
     //Actions Methods
+    @Step
     public void tap(By locator) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Execute Tap Action
-        Map<String, Object> param = new HashMap<>();
-        param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
-        Dimension elementSize = driver.manage().window().getSize();
-        param.put("x", elementSize.getWidth() / 2);
-        param.put("y", elementSize.getHeight() / 2);
-        driver.executeScript("mobile: tap", param);
+            //perform the tap action
+            Map<String, Object> param = new HashMap<>();
+            param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
+            Dimension elementSize = driver.findElement(locator).getSize();
+            param.put("x", elementSize.getWidth() / 2);
+            param.put("y", elementSize.getHeight() / 2);
+            driver.executeScript("mobile: tap", param);
+
+            logInfoStep("Tapping on Element [%s]".formatted(locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Tap on Element [%s]".formatted(locator), e);
+        }
+
     }
 
     public void tap(By locator, String direction) {
@@ -57,30 +66,28 @@ public class NativeIOSActions {
         tap(locator);
     }
 
+    @Step
     public void doubleTap(By locator) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Find the element by locator
-        WebElement element = driver.findElement(locator);
+            //perform the double tap action
+            Dimension elementSize = driver.findElement(locator).getSize();
 
-        //Find the Coordinates of Center of Element
-        Point elementCenterCoordinates = getElementCenter(element);
+            Map<String, Object> param = new HashMap<>();
+            param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
+            param.put("x", elementSize.getWidth() / 2);
+            param.put("y", elementSize.getHeight() / 2);
+            driver.executeScript("mobile: doubleTap", param);
 
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
+            logInfoStep("Double Tapping on Element [%s]".formatted(locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Double Tap on Element [%s]".formatted(locator), e);
+        }
 
-        //List all moves taken by the finger to make the double tap action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), elementCenterCoordinates.getX(), elementCenterCoordinates.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(100)));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(List.of(sequence));
     }
 
     public void doubleTap(By locator, String direction) {
@@ -90,65 +97,62 @@ public class NativeIOSActions {
         doubleTap(locator);
     }
 
-    public void longTap(By locator) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    @Step
+    public void tapAndHold(By locator) {
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Find the element by locator
-        WebElement element = driver.findElement(locator);
+            //perform the tapAndHold action
+            Dimension elementSize = driver.findElement(locator).getSize();
 
-        //Find the Coordinates of Center of Element
-        Point elementCenterCoordinates = getElementCenter(element);
+            Map<String, Object> param = new HashMap<>();
+            param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
+            param.put("duration", 2);
+            param.put("x", elementSize.getWidth() / 2);
+            param.put("y", elementSize.getHeight() / 2);
+            driver.executeScript("mobile: touchAndHold", param);
 
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
+            logInfoStep("Tapping and Hold on Element [%s]".formatted(locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Tap and Hop on Element [%s]".formatted(locator), e);
+        }
 
-        //List all moves taken by the finger to make the long tap action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), elementCenterCoordinates.getX(), elementCenterCoordinates.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(3000)));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(List.of(sequence));
     }
 
-    public void longTap(By locator, String direction) {
+    public void tapAndHold(By locator, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
-        longTap(locator);
+        tapAndHold(locator);
     }
 
+    @Step
     public void dragAndDrop(By startLocator, By destinationLocator) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(startLocator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(startLocator));
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(startLocator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(startLocator));
 
-        //Find the element by locator
-        WebElement startElement = driver.findElement(startLocator);
-        WebElement destinationElement = driver.findElement(destinationLocator);
+            //perform the drag and drop action
+            Point startPoint = getElementCenter( driver.findElement(startLocator));
+            Point endPoint = getElementCenter(driver.findElement(destinationLocator));
 
-        //Find the Coordinates of Center of Element
-        Point startElement_CenterCoordinates = getElementCenter(startElement);
-        Point destinationElement_CenterCoordinates = getElementCenter(destinationElement);
+            Map<String, Object> param = new HashMap<>();
+            param.put("duration", 1);
+            param.put("fromX", startPoint.getX());
+            param.put("fromY", startPoint.getY());
+            param.put("toX", endPoint.getX());
+            param.put("toY", endPoint.getY());
+            driver.executeScript("mobile: dragFromToForDuration", param);
 
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
-
-        //List all moves taken by the finger to make the drag&drop action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), startElement_CenterCoordinates.getX(), startElement_CenterCoordinates.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(250)));
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), destinationElement_CenterCoordinates.getX(), destinationElement_CenterCoordinates.getY()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Run the sequence of the finger moves
-        driver.perform(List.of(sequence));
-
+            logInfoStep("Drag the Element [%s] into Element [%s]".formatted(startLocator, destinationLocator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Drag the Element [%s] into Element [%s]".formatted(startLocator, destinationLocator), e);
+        }
     }
 
     public void dragAndDrop(By startLocator, By destinationLocator, String direction) {
@@ -158,134 +162,86 @@ public class NativeIOSActions {
         dragAndDrop(startLocator, destinationLocator);
     }
 
-    public void zoomIn(By locator, int zoomingDistance) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    @Step
+    public void zoomIn(By locator, double zoomingPercentage) {
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Find the element by locator
-        WebElement element = driver.findElement(locator);
+            //perform the zoom in action
+            Map<String, Object> param = new HashMap<>();
+            param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
+            param.put("scale", 1+zoomingPercentage);
+            param.put("velocity", 2.2);
+            driver.executeScript("mobile: pinch", param);
 
-        //Find the start point of each finger
-        Point elementCenterCoordinates = getElementCenter(element);
-        Point start1 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() - 50);
-        Point start2 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() + 50);
-
-        //Find the end point of each finger
-        int x = start1.getX();
-        int y = start1.getY() - zoomingDistance;
-        Point end1 = new Point(x, y);
-
-        int a = start2.getX();
-        int b = start2.getY() + zoomingDistance;
-        Point end2 = new Point(a, b);
-
-        //Declare the finger object and sequence object for Finger 1
-        PointerInput finger1 = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence1 = new Sequence(finger1, 0);
-
-        //List all moves taken by the Finger 1 to make the zoom in action
-        sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), start1.getX(), start1.getY()));
-        sequence1.addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence1.addAction(new Pause(finger1, Duration.ofMillis(250)));
-        sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), end1.getX(), end1.getY()));
-        sequence1.addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Declare the finger object and sequence object for Finger 2
-        PointerInput finger2 = new PointerInput(TOUCH, "finger 2");
-        Sequence sequence2 = new Sequence(finger1, 0);
-
-        //List all moves taken by the Finger 2 to make the zoom in action
-        sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), start2.getX(), start2.getY()));
-        sequence2.addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence2.addAction(new Pause(finger2, Duration.ofMillis(250)));
-        sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), end2.getX(), end2.getY()));
-        sequence2.addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Execute the 2 Sequences
-        driver.perform(List.of(sequence1, sequence2));
+            logInfoStep("Zooming In into the Element [%s]".formatted(locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Zoom In into the Element [%s]".formatted(locator), e);
+        }
     }
 
-    public void zoomIn(By locator, int zoomIngDistance, String direction) {
+    public void zoomIn(By locator, double zoomIngDistance, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
         zoomIn(locator, zoomIngDistance);
     }
 
-    public void zoomOut(By locator, int zoomingDistance) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    @Step
+    public void zoomOut(By locator, double zoomingDistance) {
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //Find the element by locator
-        WebElement element = driver.findElement(locator);
+            //perform the zoom out action
+            Map<String, Object> param = new HashMap<>();
+            param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
+            param.put("scale", zoomingDistance);
+            param.put("velocity", -2.2);
+            driver.executeScript("mobile: pinch", param);
 
-        //Find the start point of each finger
-        Point elementCenterCoordinates = getElementCenter(element);
-        Point start1 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() - 50);
-        Point start2 = new Point(elementCenterCoordinates.getX(), elementCenterCoordinates.getY() + 50);
-
-        //Find the end point of each finger
-        int x = start1.getX();
-        int y = start1.getY() - zoomingDistance;
-        Point end1 = new Point(x, y);
-
-        int a = start2.getX();
-        int b = start2.getY() + zoomingDistance;
-        Point end2 = new Point(a, b);
-
-        //Declare the finger object and sequence object for Finger 1
-        PointerInput finger1 = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence1 = new Sequence(finger1, 0);
-
-        //List all moves taken by the Finger 1 to make the zoom in action
-        sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), end1.getX(), end1.getY()));
-        sequence1.addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence1.addAction(new Pause(finger1, Duration.ofMillis(250)));
-        sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), start1.getX(), start1.getY()));
-        sequence1.addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Declare the finger object and sequence object for Finger 2
-        PointerInput finger2 = new PointerInput(TOUCH, "finger 2");
-        Sequence sequence2 = new Sequence(finger1, 0);
-
-        //List all moves taken by the Finger 2 to make the zoom in action
-        sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), end2.getX(), end2.getY()));
-        sequence2.addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence2.addAction(new Pause(finger2, Duration.ofMillis(250)));
-        sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), start2.getX(), start2.getY()));
-        sequence2.addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Execute the Zoom Out
-        driver.perform(List.of(sequence1, sequence2));
+            logInfoStep("Zooming Out into the Element [%s]".formatted(locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Zoom Out into the Element [%s]".formatted(locator), e);
+        }
     }
 
-    public void zoomOut(By locator, int zoomIngDistance, String direction) {
+    public void zoomOut(By locator, double zoomIngDistance, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
         zoomOut(locator, zoomIngDistance);
     }
 
+    @Step
     public void type(By locator, String value) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
 
-        //take the Type action inside wait with lambda function
-        wait.until(d -> {
-            driver.findElement(locator).clear();
-            return true;
-        });
+            //take the Type action inside wait with lambda function
+            wait.until(d -> {
+                driver.findElement(locator).clear();
+                return true;
+            });
 
-        wait.until(d -> {
-            driver.findElement(locator).sendKeys(value);
-            return true;
-        });
+            wait.until(d -> {
+                driver.findElement(locator).sendKeys(value);
+                return true;
+            });
+
+            logInfoStep("Typing text [%s] on Element [%s]".formatted(value, locator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Type text [%s] on Element [%s]".formatted(value, locator), e);
+        }
+
     }
 
     public void type(By locator, String value, String direction) {
@@ -295,13 +251,23 @@ public class NativeIOSActions {
         type(locator, value);
     }
 
+    @Step
     public String readTextFromElement(By locator) {
-        //wait until the element is visible on page on GUI
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        //wait until the element is enabled or clickable on page
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-        //take the Type action inside wait with lambda function
-        return wait.until(d -> driver.findElement(locator).getText());
+
+        try {
+            //wait until the element is visible on page on GUI
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            //wait until the element is enabled or clickable on page
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+            //take the Type action inside wait with lambda function
+            String value = wait.until(d -> driver.findElement(locator).getText());
+
+            logInfoStep("Reading text [%s] from Element [%s]".formatted(value, locator));
+            return value;
+        } catch (Exception e) {
+            logErrorStep("Failed to Read text from Element [%s]".formatted(locator), e);
+            return null;
+        }
     }
 
     public String readTextFromElement(By locator, String direction) {
@@ -311,16 +277,20 @@ public class NativeIOSActions {
         return readTextFromElement(locator);
     }
 
+    @Step
     public boolean isElementDisplayed(By locator) {
         //take the isDisplayed action inside wait with lambda function
         try {
-            return wait.until(d -> driver.findElement(locator).isDisplayed());
-        } catch (TimeoutException e) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
+            return true;
+        } catch (Exception e) {
+            logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
-
         }
     }
 
+    @Step
     public boolean isElementDisplayed(By locator, String direction) {
         try {
             wait.until(d -> {
@@ -328,13 +298,16 @@ public class NativeIOSActions {
                 return driver.findElement(locator).isDisplayed();
             });
 
+            logInfoStep("The Element [%s] is Displayed".formatted(locator));
             return true;
 
         } catch (TimeoutException e) {
+            logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
         }
     }
 
+    @Step
     public boolean isElementNotDisplayed(By locator, String direction) {
 
         try {
@@ -342,135 +315,86 @@ public class NativeIOSActions {
                 singleSwipeIntoScreen(direction);
                 return driver.findElement(locator).isDisplayed();
             });
-
+            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
             return false;
 
         } catch (TimeoutException e) {
+            logErrorStep("The Element [%s] is Displayed".formatted(locator));
             return true;
         }
 
     }
 
     public void singleSwipeIntoScreen(String direction) {
-        //Start Point in the Center of Screen
-        Point startPoint;
-        Dimension screenSize = driver.manage().window().getSize();
-        int x = screenSize.getWidth() / 2;
-        int y = screenSize.getHeight() / 2;
-        startPoint = new Point(x, y);
+        int screenHeight = driver.manage().window().getSize().getHeight();
+        int screenWidth = driver.manage().window().getSize().getWidth();
 
-        //End Point based on the Scrolling Direction
-        Point endPoint;
-        int a = 0;
-        int b = 0;
+        //Execute the Single Swipe Action
+        Map<String, Object> param = new HashMap<>();
+        param.put("velocity",500);
 
         switch (direction) {
-            case "Up":
-                a = x;
-                b = y +  screenSize.getHeight() /3;
-                break;
-
-            case "Down":
-                a = x;
-                b = y - screenSize.getHeight() /3;;
-                break;
-
-            case "Left":
-                a = x + screenSize.getWidth() /3;
-                b = y;
-                break;
-
-            case "Right":
-                a = x - screenSize.getWidth() /3;
-                b = y;
-                break;
+            case "Down" -> param.put("direction", "up");
+            case "Up" -> param.put("direction", "down");
+            case "Left" -> param.put("direction", "right");
+            case "Right" -> param.put("direction", "left");
+            case null -> {}
+            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
-        endPoint = new Point(a, b);
+        driver.executeScript("mobile: swipe", param);
 
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
-
-        //List all moves taken by the finger to make the swipe action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), startPoint.getX(), startPoint.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(250)));
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), endPoint.getX(), endPoint.getY()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Run the sequence of the finger moves
-        driver.perform(List.of(sequence));
     }
 
-    public void singleSwipeIntoElement(String direction, By scrollableElement){
-        //Start Point is the Center of Element
-        Point startPoint;
-        startPoint = getElementCenter(driver.findElement(scrollableElement));
-        int x = startPoint.getX();
-        int y = startPoint.getY();
+    public void singleSwipeIntoElement(String direction, By scrollableElement) {
 
-        //End Point based on the Scrolling Direction
-        Dimension elementSize = driver.findElement(scrollableElement).getSize();
-        int elementHeight = elementSize.getHeight();
-        int elementWidth = elementSize.getWidth();
-
-        Point endPoint;
-        int a = 0;
-        int b = 0;
+        Map<String, Object> param = new HashMap<>();
+        param.put("velocity",500);
+        param.put("elementId",((RemoteWebElement)driver.findElement(scrollableElement)).getId());
 
         switch (direction) {
-            case "Up":
-                a = x;
-                b = y + elementHeight/3;
-                break;
-
-            case "Down":
-                a = x;
-                b = y - elementHeight/3;
-                break;
-
-            case "Left":
-                a = x + elementWidth/3;
-                b = y;
-                break;
-
-            case "Right":
-                a = x - elementWidth/3;
-                b = y;
-                break;
+            case "Down" -> param.put("direction", "up");
+            case "Up" -> param.put("direction", "down");
+            case "Left" -> param.put("direction", "right");
+            case "Right" -> param.put("direction", "left");
+            case null -> {}
+            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
-        endPoint = new Point(a,b);
-
-        //Declare the finger object and sequence object
-        PointerInput finger = new PointerInput(TOUCH, "finger 1");
-        Sequence sequence = new Sequence(finger, 0);
-
-        //List all moves taken by the finger to make the swipe action
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), startPoint.getX(), startPoint.getY()));
-        sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        sequence.addAction(new Pause(finger, Duration.ofMillis(250)));
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), endPoint.getX(), endPoint.getY()));
-        sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-        //Run the sequence of the finger moves
-        driver.perform(List.of(sequence));
-
+        driver.executeScript("mobile: swipe", param);
     }
 
     public void scrollUntilElementDisplayed(By targetLocator, String direction) {
-        wait.until(d -> {
-            singleSwipeIntoScreen(direction);
-            return driver.findElement(targetLocator).isDisplayed();
-        });
+        try {
+            if (!driver.findElement(targetLocator).isDisplayed())
+                throw new NotFoundException();
+
+        } catch (Exception e) {
+            try {
+                wait.until(d -> {
+                    singleSwipeIntoScreen(direction);
+                    return driver.findElement(targetLocator).isDisplayed();
+                });
+
+                logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
+            } catch (Exception f) {
+                logErrorStep("Failed to Scroll into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator), f);
+            }
+        }
     }
 
     public void scrollUntilElementDisplayed(By targetLocator, String direction, By scrollableElement) {
-        wait.until(d -> {
-            singleSwipeIntoElement(direction,scrollableElement);
-            return driver.findElement(targetLocator).isDisplayed();
-        });
+        try {
+            wait.until(d -> {
+                singleSwipeIntoElement(direction, scrollableElement);
+                return driver.findElement(targetLocator).isDisplayed();
+            });
+
+            logInfoStep("Scrolling into Scrollable Element [%s] in direction [%s] until Element [%s] is Displayed".formatted(scrollableElement, direction, targetLocator));
+        } catch (Exception e) {
+            logErrorStep("Failed to Scroll into Scrollable Element [%s] in direction [%s] until Element [%s] is Displayed".formatted(scrollableElement, direction, targetLocator), e);
+        }
+
     }
 
     public static Point getElementCenter(WebElement element) {

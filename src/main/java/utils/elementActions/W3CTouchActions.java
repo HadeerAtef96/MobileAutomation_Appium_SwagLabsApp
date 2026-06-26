@@ -184,7 +184,7 @@ public class W3CTouchActions {
             sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), startElement_CenterCoordinates.getX(), startElement_CenterCoordinates.getY()));
             sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             sequence.addAction(new Pause(finger, Duration.ofMillis(250)));
-            sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), destinationElement_CenterCoordinates.getX(), destinationElement_CenterCoordinates.getY()));
+            sequence.addAction(finger.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), destinationElement_CenterCoordinates.getX(), destinationElement_CenterCoordinates.getY()));
             sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             //Run the sequence of the finger moves
@@ -204,7 +204,7 @@ public class W3CTouchActions {
     }
 
     @Step
-    public void zoomIn(By locator, int zoomingDistance) {
+    public void zoomIn(By locator, double zoomingPercentage) {
         try {
             //wait until the element is visible on page on GUI
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -213,6 +213,7 @@ public class W3CTouchActions {
 
             //Find the element by locator
             WebElement element = driver.findElement(locator);
+            int elementHeight = driver.findElement(locator).getSize().getHeight();
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
@@ -221,33 +222,33 @@ public class W3CTouchActions {
 
             //Find the end point of each finger
             int x = start1.getX();
-            int y = start1.getY() - zoomingDistance;
+            int y = (int) (start1.getY() - zoomingPercentage* ((double) elementHeight /2));
             Point end1 = new Point(x, y);
 
             int a = start2.getX();
-            int b = start2.getY() + zoomingDistance;
+            int b = (int) (start2.getY() + zoomingPercentage* ((double) elementHeight /2));
             Point end2 = new Point(a, b);
 
             //Declare the finger object and sequence object for Finger 1
-            PointerInput finger1 = new PointerInput(TOUCH, "finger 1");
+            PointerInput finger1 = new PointerInput(TOUCH, "finger-1");
             Sequence sequence1 = new Sequence(finger1, 0);
 
             //List all moves taken by the Finger 1 to make the zoom in action
             sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), start1.getX(), start1.getY()));
             sequence1.addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             sequence1.addAction(new Pause(finger1, Duration.ofMillis(250)));
-            sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), end1.getX(), end1.getY()));
+            sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), end1.getX(), end1.getY()));
             sequence1.addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             //Declare the finger object and sequence object for Finger 2
-            PointerInput finger2 = new PointerInput(TOUCH, "finger 2");
-            Sequence sequence2 = new Sequence(finger1, 0);
+            PointerInput finger2 = new PointerInput(TOUCH, "finger-2");
+            Sequence sequence2 = new Sequence(finger2, 0);
 
             //List all moves taken by the Finger 2 to make the zoom in action
             sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), start2.getX(), start2.getY()));
             sequence2.addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             sequence2.addAction(new Pause(finger2, Duration.ofMillis(250)));
-            sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), end2.getX(), end2.getY()));
+            sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), end2.getX(), end2.getY()));
             sequence2.addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             //Execute the 2 Sequences
@@ -259,15 +260,15 @@ public class W3CTouchActions {
         }
     }
 
-    public void zoomIn(By locator, int zoomIngDistance, String direction) {
+    public void zoomIn(By locator, double zoomingPercentage, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
-        zoomIn(locator, zoomIngDistance);
+        zoomIn(locator, zoomingPercentage);
     }
 
     @Step
-    public void zoomOut(By locator, int zoomingDistance) {
+    public void zoomOut(By locator, double zoomingPercentage) {
         try {
             //wait until the element is visible on page on GUI
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -276,6 +277,7 @@ public class W3CTouchActions {
 
             //Find the element by locator
             WebElement element = driver.findElement(locator);
+            int elementHeight = driver.findElement(locator).getSize().getHeight();
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
@@ -284,33 +286,33 @@ public class W3CTouchActions {
 
             //Find the end point of each finger
             int x = start1.getX();
-            int y = start1.getY() - zoomingDistance;
+            int y = (int) (start1.getY() - zoomingPercentage* ((double) elementHeight /2));
             Point end1 = new Point(x, y);
 
             int a = start2.getX();
-            int b = start2.getY() + zoomingDistance;
+            int b = (int) (start2.getY() + zoomingPercentage* ((double) elementHeight /2));
             Point end2 = new Point(a, b);
 
             //Declare the finger object and sequence object for Finger 1
-            PointerInput finger1 = new PointerInput(TOUCH, "finger 1");
+            PointerInput finger1 = new PointerInput(TOUCH, "finger-1");
             Sequence sequence1 = new Sequence(finger1, 0);
 
             //List all moves taken by the Finger 1 to make the zoom in action
             sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), end1.getX(), end1.getY()));
             sequence1.addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             sequence1.addAction(new Pause(finger1, Duration.ofMillis(250)));
-            sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(0), viewport(), start1.getX(), start1.getY()));
+            sequence1.addAction(finger1.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), start1.getX(), start1.getY()));
             sequence1.addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             //Declare the finger object and sequence object for Finger 2
-            PointerInput finger2 = new PointerInput(TOUCH, "finger 2");
-            Sequence sequence2 = new Sequence(finger1, 0);
+            PointerInput finger2 = new PointerInput(TOUCH, "finger-2");
+            Sequence sequence2 = new Sequence(finger2, 0);
 
             //List all moves taken by the Finger 2 to make the zoom in action
             sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), end2.getX(), end2.getY()));
             sequence2.addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             sequence2.addAction(new Pause(finger2, Duration.ofMillis(250)));
-            sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(0), viewport(), start2.getX(), start2.getY()));
+            sequence2.addAction(finger2.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), start2.getX(), start2.getY()));
             sequence2.addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
             //Execute the Zoom Out
@@ -322,11 +324,11 @@ public class W3CTouchActions {
         }
     }
 
-    public void zoomOut(By locator, int zoomIngDistance, String direction) {
+    public void zoomOut(By locator, double zoomingPercentage, String direction) {
         //Scroll into screen until the element is visible into viewPort
         scrollUntilElementDisplayed(locator, direction);
 
-        zoomOut(locator, zoomIngDistance);
+        zoomOut(locator, zoomingPercentage);
     }
 
     @Step
@@ -515,34 +517,28 @@ public class W3CTouchActions {
         int b = 0;
 
         switch (direction) {
-            case "Up":
+            case "Up" -> {
                 a = x;
                 b = y + elementHeight / 3;
-                break;
-
-            case "Down":
+            }
+            case "Down" -> {
                 a = x;
                 b = y - elementHeight / 3;
-                break;
-
-            case "Left":
+            }
+            case "Left" -> {
                 a = x + elementWidth / 3;
                 b = y;
-                break;
-
-            case "Right":
+            }
+            case "Right" -> {
                 a = x - elementWidth / 3;
                 b = y;
-                break;
-
-            case null:
+            }
+            case null -> {
                 a = x;
                 b = y;
-                break;
-
-            default:
-                logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null");
-                break;
+            }
+            default ->
+                    logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
         endPoint = new Point(a, b);
@@ -555,7 +551,7 @@ public class W3CTouchActions {
         sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), startPoint.getX(), startPoint.getY()));
         sequence.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
         sequence.addAction(new Pause(finger, Duration.ofMillis(250)));
-        sequence.addAction(finger.createPointerMove(Duration.ofMillis(0), viewport(), endPoint.getX(), endPoint.getY()));
+        sequence.addAction(finger.createPointerMove(Duration.ofMillis(Long.parseLong(PropertiesReader.getPropertiesValue("swipeRate"))), viewport(), endPoint.getX(), endPoint.getY()));
         sequence.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         //Run the sequence of the finger moves
@@ -575,6 +571,8 @@ public class W3CTouchActions {
                     return driver.findElement(targetLocator).isDisplayed();
                 });
 
+                Thread.sleep(1000);
+
                 logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
             } catch (Exception f) {
                 logErrorStep("Failed to Scroll into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator), f);
@@ -588,6 +586,8 @@ public class W3CTouchActions {
                 singleSwipeIntoElement(direction, scrollableElement);
                 return driver.findElement(targetLocator).isDisplayed();
             });
+
+            Thread.sleep(1000);
 
             logInfoStep("Scrolling into Scrollable Element [%s] in direction [%s] until Element [%s] is Displayed".formatted(scrollableElement, direction, targetLocator));
         } catch (Exception e) {

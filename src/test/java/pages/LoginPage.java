@@ -1,6 +1,5 @@
 package pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -9,7 +8,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends _BasePage {
     //Variables
 
     //Constructor

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static utils.PropertiesReader.*;
 
-public class BaseTest {
+public class _BaseTest {
     //Objects and Variables
     AppiumDriver driver;
     JsonReader json = new JsonReader("src/test/resources/TestData/testData.json");

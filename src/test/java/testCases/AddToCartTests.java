@@ -2,19 +2,14 @@ package testCases;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.BasePage;
 import pages.CartPage;
 import pages.LoginPage;
 import pages.ProductsPage;
-import utils.JsonReader;
 
-import static utils.DataGenerator.generateRandomName;
-import static utils.DataGenerator.generateRandomPassword;
-
-public class AddToCartTests extends BaseTest {
+public class AddToCartTests extends _BaseTest {
 
     @BeforeMethod(alwaysRun = true)
-    public void loginWithValidUser(){
+    public void loginWithValidUser() {
 
         new LoginPage(driver)
                 .typeUsername(json.readTestData("validUser.username"))
@@ -22,25 +17,42 @@ public class AddToCartTests extends BaseTest {
                 .clickOnLoginButton();
 
         new ProductsPage(driver)
-                 .verifyProductsPageTitleIsDisplayed();
+                .verifyProductsPageTitleIsDisplayed();
 
     }
 
-    @Test (groups = {"Positive"})
-    public void addProductToCartByButton(){
+    @Test(groups = {"Positive"})
+    public void addProductToCartByButton() {
 
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"),null)
-                .addProductToCartByButton(json.readTestData("products[1].name"),"Down")
-                .addProductToCartByButton(json.readTestData("products[2].name"),"Up")
+                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByButton(json.readTestData("products[1].name"), "Down")
+                .addProductToCartByButton(json.readTestData("products[2].name"), "Up")
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .verifyProductIsAddedToCart(json.readTestData("products[0].name"),null)
-                .verifyProductIsAddedToCart(json.readTestData("products[1].name"),"Down")
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"),"Down");
+                .verifyProductIsAddedToCart(json.readTestData("products[0].name"), null)
+                .verifyProductIsAddedToCart(json.readTestData("products[1].name"), "Down")
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down");
     }
 
+    @Test(groups = {"Positive"})
+    public void addProductToCartByDragDrop() {
+
+
+        new ProductsPage(driver)
+                .addProductToCartByDragDrop(json.readTestData("products[0].name"), null)
+                .addProductToCartByDragDrop(json.readTestData("products[1].name"), "Down")
+                .addProductToCartByDragDrop(json.readTestData("products[2].name"), "Up")
+                .navigateToCart();
+
+        new CartPage(driver)
+                .verifyCartPageTitleIsDisplayed()
+                .verifyProductIsAddedToCart(json.readTestData("products[0].name"), null)
+                .verifyProductIsAddedToCart(json.readTestData("products[1].name"), "Down")
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down");
+    }
 
 }
+

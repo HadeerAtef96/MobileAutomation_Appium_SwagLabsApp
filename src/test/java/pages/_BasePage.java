@@ -10,14 +10,14 @@ import org.testng.Assert;
 import utils.elementActions.W3CTouchActions;
 
 
-public class BasePage {
+public class _BasePage {
 
     //Common Variables
     AppiumDriver driver;
     W3CTouchActions finger;
 
     //Constructor
-    public BasePage(AppiumDriver driver) {
+    public _BasePage(AppiumDriver driver) {
         finger = new W3CTouchActions(driver);
         this.driver = driver;
         initializeLocator();
@@ -41,14 +41,14 @@ public class BasePage {
 
     //Header Actions
     @Step
-    public BasePage navigateToCart(){
+    public _BasePage navigateToCart(){
         finger.tap(cartIcon);
         return this;
     }
 
     //Header Validation
     @Step
-    public BasePage verifyLogoIsDisplayed(){
+    public _BasePage verifyLogoIsDisplayed(){
         boolean actualStatus = finger.isElementDisplayed(appLogo);
         Assert.assertTrue(actualStatus);
         return this;
