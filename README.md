@@ -40,7 +40,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Managing Project Configurations and Appium Capabilities from Properties Files
 - Auto-Generation of Allure Report after Every Test Run through .bat file and Logging all Test Steps and Screenshots in the Report
 - Logging All Steps in Console using Log4j2
-- Synchronizing All Elements Identifications and All Actions taken on elements inside Fluent Wait with lambda expression, so waiting till finding element and also taking the action
+- Waiting for All Elements Identifications and All Actions taken on elements inside Fluent Wait with lambda expression, so waiting till finding element and also taking the action
 - Retry Mechanism for Flaky Tests in case of Failed
 - Automatic Start Appium Server Before Run and Stop it after Run
 - Generate Random Test Data using JavaFaker
