@@ -35,13 +35,17 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Using Fluent Page Object Model for writing Test script and Page actions, thus chaining the Scenario steps and validations in one line of code
 - Simulating all Mobile Gestures like Tap / DoubleTap/ TapAndHold /Zoom / DragAndDrop/ Swipe, with only one command while Auto Scrolling in a given Direction to the Target Element till displayed into ViewPort
 - Using W3C Touch Actions for Mobile Gestures Automation similar to Real Finger Movemenets
-- Using Automation Driver Commands for Android "UiAutomator2" & IOS "XCUITest" for Mobile Gestures Automation in very simple code and more accurate than finger movements
+- Using Automation Driver Commands for Android "UiAutomator2" & IOS "XCUITest" for Mobile Gestures Automation with very simple code and more accurate than finger movements
 - Using Test Data Management for Storing all Test data in Json Files
-- Storing all Project Configurations and Appium Capabilities in Properties Files
+- Managing all Project Configurations and Appium Capabilities in Properties Files
 - Auto-Generation of Allure Report after Every Test Run and Logging all Test Steps and Screenshots in the Report
 - Logging All Steps in Console using Log4j2
-- 
- 
+- Synchronizing All Elements Identifications and All Actions taken on elements inside Fluent Wait with lambda expression, so waiting till finding element and also taking the action
+- Retry Mechanism for Flaky Tests in case of Failed
+- Automatic Start Appium Server Before Run and Stop it after Run
+- Generate Random Test Data using JavaFaker
+- Retry Type action for incorrect typing
+- Scanning the whole Mobile page from Top to Button for Verifying if the element is Displayed or NotDisplayed
 
 ## Utilities
 - AppiumDriver Factory
@@ -50,12 +54,12 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - NativeIOSActions by XCUITest Driver
 - TestNG Suite / Test / Method Listeners
 - Log4j2 LogHelper
-- AllureReport Helper Actions
+- AllureReportHelper
 - Screenshot
-- Retry Analyizer 
-- Random Data Generator
-- Json Reader
-- Properties Reader
+- RetryAnalyizer 
+- RandomDataGenerator
+- JsonReader
+- PropertiesReader
 
 ## Project Structure
 ```text
