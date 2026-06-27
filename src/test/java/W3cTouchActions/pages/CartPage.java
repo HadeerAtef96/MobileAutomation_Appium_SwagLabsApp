@@ -1,4 +1,4 @@
-package page_w3cTouchActions;
+package W3cTouchActions.pages;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
@@ -50,32 +50,32 @@ public class CartPage extends _BasePage {
 
     //Actions
     @Step
-    public CartPage removeFromCartByButton(String productName, String direction) {
+    public CartPage removeFromCartByButton(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we perform remove action through utils or w3c touch actions
-        finger.tap(removeFromCartButton);
+        finger.tap(removeFromCartButton,"Vertical");
         return this;
     }
 
     @Step
-    public CartPage removeFromCartBySwipe(String productName, String direction) {
+    public CartPage removeFromCartBySwipe(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we perform remove action through utils or w3c touch actions
-        finger.scrollUntilElementDisplayed(productCard, direction);
+        finger.scrollUntilElementDisplayed(productCard, "Vertical");
         finger.singleSwipeIntoElement("Right", productCard);
         finger.tap(removeFromCartRedButton);
         return this;
     }
 
     @Step
-    public CartPage selectToCheckoutTheCart(String direction) {
-        finger.tap(checkoutButton, direction);
+    public CartPage selectToCheckoutTheCart() {
+        finger.tap(checkoutButton, "Vertical");
         return this;
     }
 
@@ -88,31 +88,31 @@ public class CartPage extends _BasePage {
     }
 
     @Step
-    public CartPage verifyCheckoutButtonIsRemovedFromPage(String direction) {
-        Assert.assertTrue(finger.isElementNotDisplayed(checkoutButton, direction));
+    public CartPage verifyCheckoutButtonIsRemovedFromPage() {
+        Assert.assertTrue(finger.isElementNotDisplayed(checkoutButton, "Vertical"));
         return this;
     }
 
     @Step
-    public CartPage verifyProductIsAddedToCart(String productName, String direction) {
+    public CartPage verifyProductIsAddedToCart(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils or w3c touch actions
-        boolean actual = finger.isElementDisplayed(productNameText, direction);
+        boolean actual = finger.isElementDisplayed(productNameText, "Vertical");
         Assert.assertTrue(actual);
         return this;
     }
 
     @Step
-    public CartPage verifyProductIsRemovedFromCart(String productName, String direction) {
+    public CartPage verifyProductIsRemovedFromCart(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils or w3c touch actions
-        boolean actual = finger.isElementNotDisplayed(productNameText, direction);
+        boolean actual = finger.isElementNotDisplayed(productNameText, "Vertical");
         Assert.assertTrue(actual);
         return this;
     }

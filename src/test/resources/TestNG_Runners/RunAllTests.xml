@@ -3,7 +3,7 @@
 
 <suite name="SwagLabs App">
 
-    <test name="Positive Test" enabled="true">
+    <test name="Positive Test"> <parameter name="platformName" value="Android"/>
         <groups>
             <run>
                 <include name="Positive"/>
@@ -11,11 +11,11 @@
         </groups>
 
         <packages>
-            <package name="testCases_w3cTouchActions"/>
+            <package name="W3cTouchActions.testCases"/>
         </packages>
     </test>
 
-    <test name="Negative Test" enabled="true">
+    <test name="Negative Test" > <parameter name="platformName" value="Android"/>
         <groups>
             <run>
                 <include name="Negative"/>
@@ -23,7 +23,7 @@
         </groups>
 
         <packages>
-            <package name="testCases_w3cTouchActions"/>
+            <package name="W3cTouchActions.testCases"/>
         </packages>
     </test>
 

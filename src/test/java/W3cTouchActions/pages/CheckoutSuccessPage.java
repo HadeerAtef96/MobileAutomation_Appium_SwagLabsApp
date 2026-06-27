@@ -1,6 +1,5 @@
-package page_w3cTouchActions;
+package W3cTouchActions.pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;

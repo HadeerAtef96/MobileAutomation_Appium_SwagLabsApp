@@ -1,4 +1,4 @@
-package page_w3cTouchActions;
+package W3cTouchActions.pages;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;

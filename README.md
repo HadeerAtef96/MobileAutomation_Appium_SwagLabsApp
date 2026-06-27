@@ -22,6 +22,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - UiAutomator2 Driver for Mobile Gestures Automation on Android Devices
 - XCUITest Driver for Mobile Gestures Automation on IOS Devices
 - Retry Mechanism for Flaky Tests
+- Smart Scroll Search for Mobile Elements
 - Fluent Wait Strategy for Identifying Elements
 - Appium Factory for creating Driver across Different Platforms and Capabilities
 - TestNg Listeners for Monitoring different Events on Suite, Test and Method Level 
@@ -29,6 +30,8 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Logging using Log4j2
 - Test Data Management using Json
 - Test Data Generation using JavaFaker
+- Running Tests from TestNG XML Files on a specific Platform (Android/IOS) or across both Platforms
+
 
 ## Features
 - Creating Cross Platform Framework for Android and IOS "Locators and Actions and Capaiblities"
@@ -37,6 +40,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Simulating all Mobile Gestures like Tap / DoubleTap/ TapAndHold /Zoom / DragAndDrop / Swipe, with only one command while Auto Scrolling in a given Direction till the Target Element Dispalyed in ViewPort
 - Using W3C Touch Actions for Mobile Gestures Automation similar to Real Finger Movemenets
 - Using Automation Driver Commands for Android "UiAutomator2" & IOS "XCUITest" for Mobile Gestures Automation with very simple code and more accurate than finger movements
+- Smart Scroll Search: Automatically scans the entire page by scrolling in the specified direction (Vertical or Horizontal). In Vertical mode, it scrolls down to the footer, then reverses to the header if the element is not found, ensuring a complete page scan before performing the required action.
 - Using Test Data Management for Storing all Test data in Json Files
 - Managing Project Configurations and Appium Capabilities from Properties Files
 - Auto-Generation of Allure Report after Every Test Run through .bat file and Logging all Test Steps and Screenshots in the Report
@@ -46,7 +50,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Automatic Start Appium Server Before Run and Stop it after Run
 - Generate Random Test Data using JavaFaker
 - Retry Type action for incorrect typing
-- Scanning the whole Mobile page from Top to Button for Verifying if the element is Displayed or NotDisplayed
+
 
 ## Utilities
 - AppiumDriver Factory
@@ -68,13 +72,16 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 ```
 ## Running Tests
 
-### Run all tests using TestNG Xml
+### Run All Tests - using TestNG XML - on One Platform
 - RunAllTests.xml
 
-### Run positive groups using TestNG Xml
+### Run All Tests - using TestNG XML - on Both Android & IOS
+- RunAllTests_Android-IOS
+
+### Run Positive Tests or Groups only - using TestNG XML - on One Platform
 - PositiveTestCases.xml
 
-### Run negative groups using TestNG Xml
+### Run Negative Tests or Groups only - using TestNG XML - on One Platform
 - NegativeTestCases.xml
 
 ## Author

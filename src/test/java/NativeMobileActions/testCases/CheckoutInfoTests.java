@@ -1,10 +1,11 @@
-package testCases_w3cTouchActions;
+package NativeMobileActions.testCases;
 
+import NativeMobileActions.pages.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import page_w3cTouchActions.*;
 
-import static utils.DataGenerator.*;
+import static utils.DataGenerator.generateRandomName;
+import static utils.DataGenerator.generateRandomPostalCode;
 
 public class CheckoutInfoTests extends _BaseTest {
 
@@ -25,12 +26,12 @@ public class CheckoutInfoTests extends _BaseTest {
     @Test(groups = {"Positive"})
     public void fillCheckoutInfoWithValidData() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -47,12 +48,12 @@ public class CheckoutInfoTests extends _BaseTest {
     @Test(groups = {"Negative"})
     public void fillCheckoutInfoWithEmptyFirstName() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -65,12 +66,12 @@ public class CheckoutInfoTests extends _BaseTest {
     @Test(groups = {"Negative"})
     public void fillCheckoutInfoWithEmptyLastName() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -83,12 +84,12 @@ public class CheckoutInfoTests extends _BaseTest {
     @Test(groups = {"Negative"})
     public void fillCheckoutInfoWithEmptyPostalCode() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()

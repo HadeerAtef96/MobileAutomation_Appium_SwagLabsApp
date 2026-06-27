@@ -16,7 +16,7 @@ import static utils.logging_reporting.LogHelper.logErrorStep;
 import static utils.logging_reporting.LogHelper.logInfoStep;
 
 
-public class W3CTouchActions {
+public class W3CTouchActions implements MobileActions {
 
     //Define Global Variables
     AppiumDriver driver;
@@ -77,6 +77,7 @@ public class W3CTouchActions {
         tap(locator);
     }
 
+
     @Step
     public void doubleTap(By locator) {
         try {
@@ -118,6 +119,7 @@ public class W3CTouchActions {
         doubleTap(locator);
     }
 
+
     @Step
     public void tapAndHold(By locator) {
         try {
@@ -156,6 +158,7 @@ public class W3CTouchActions {
 
         tapAndHold(locator);
     }
+
 
     @Step
     public void dragAndDrop(By startLocator, By destinationLocator) {
@@ -199,6 +202,7 @@ public class W3CTouchActions {
 
         dragAndDrop(startLocator, destinationLocator);
     }
+
 
     @Step
     public void zoomIn(By locator, double zoomingPercentage) {
@@ -262,6 +266,7 @@ public class W3CTouchActions {
 
         zoomIn(locator, zoomingPercentage);
     }
+
 
     @Step
     public void zoomOut(By locator, double zoomingPercentage) {
@@ -327,6 +332,7 @@ public class W3CTouchActions {
         zoomOut(locator, zoomingPercentage);
     }
 
+
     @Step
     public void type(By locator, String value) {
         try {
@@ -341,7 +347,8 @@ public class W3CTouchActions {
                 driver.findElement(locator).sendKeys(value);
 
                 //if the value is not typed correctly, clear and retype again
-                if (!driver.findElement(locator).getText().equalsIgnoreCase(value)){
+                //don't apply it in passwords
+                while(!driver.findElement(locator).getText().equalsIgnoreCase(value) && !driver.findElement(locator).getText().contains("•")){
                     driver.findElement(locator).clear();
                     driver.findElement(locator).sendKeys(value);
                 }
@@ -361,6 +368,7 @@ public class W3CTouchActions {
 
         type(locator, value);
     }
+
 
     @Step
     public String readTextFromElement(By locator) {
@@ -388,6 +396,7 @@ public class W3CTouchActions {
         return readTextFromElement(locator);
     }
 
+
     @Step
     public boolean isElementDisplayed(By locator) {
         //take the isDisplayed action inside wait with lambda function
@@ -403,71 +412,79 @@ public class W3CTouchActions {
 
     @Step
     public boolean isElementDisplayed(By locator, String direction) {
+
         try {
-            if (!driver.findElement(locator).isDisplayed())
-                throw new NotFoundException();
-            else {
-                logInfoStep("The Element [%s] is Displayed".formatted(locator));
-                return true;
-            }
 
-        } catch (Exception e) {
-            try {
-                String[] previousPageSource = {""};
-                wait.until(d -> {
-                    // Repeat the Single Swipe in a Loop till element is displayed
-                    singleSwipeIntoScreen(direction);
-
-                    //Always detect if the page source is not changing so that we are reached the top or button of screen
-                    //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
-                    String currentPageSource = driver.getPageSource();
-                    if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
-                        throw new TimeoutException();
-                    else
-                        previousPageSource[0] = currentPageSource;
-
-                    return driver.findElement(locator).isDisplayed();
-                });
-
-                logInfoStep("The Element [%s] is Displayed".formatted(locator));
-                return true;
-
-            } catch (TimeoutException f) {
-                logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
-                return false;
-            }
+            scrollUntilElementDisplayed(locator,direction);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            logInfoStep("the Element [%s] is Displayed".formatted(locator));
+            return true;
+        }catch (TimeoutException e){
+            logErrorStep("the Element [%s] is Not Displayed".formatted(locator));
+            return false;
         }
+
     }
+
 
     @Step
     public boolean isElementNotDisplayed(By locator, String direction) {
 
         try {
             String[] previousPageSource = {""};
+            final int[] flag = {0};
+            wait.until(f -> {
+                if (flag[0] == 1) {
+                    // If the element is not found, perform a scroll action using Mobile Swipe of XCUITest
+                    if (direction.equalsIgnoreCase("Vertical"))
+                        singleSwipeIntoScreen("Down");
+                    else if (direction.equalsIgnoreCase("Horizontal"))
+                        singleSwipeIntoScreen("Right");
+                }
 
-            wait.until(d -> {
-                // Repeat the Single Swipe in a Loop till element is displayed
-                singleSwipeIntoScreen(direction);
-
-                //Always detect if the page source is not changing so that we are reached the top or button of screen
-                //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
                 String currentPageSource = driver.getPageSource();
                 if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                    // The page source hasn't changed, so we've reached the bottom
                     throw new TimeoutException();
                 else
                     previousPageSource[0] = currentPageSource;
 
+                flag[0] = 1;
                 return driver.findElement(locator).isDisplayed();
             });
             logErrorStep("The Element [%s] is Displayed".formatted(locator));
             return false;
-
         } catch (TimeoutException e) {
-            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
-            return true;
+            // Scroll in Opposite Direction till Element is Displayed into View or till Timeout or till Reach end of Page
+            try {
+                String[] previousPageSource = {""};
+                wait.until(f -> {
+                    if (direction.equalsIgnoreCase("Vertical"))
+                        singleSwipeIntoScreen("Up");
+                    else if (direction.equalsIgnoreCase("Horizontal"))
+                        singleSwipeIntoScreen("Left");
+
+                    String currentPageSource = driver.getPageSource();
+                    if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        // The page source hasn't changed, so we've reached the bottom
+                        throw new TimeoutException();
+                    else
+                        previousPageSource[0] = currentPageSource;
+
+                    return driver.findElement(locator).isDisplayed();
+                });
+                logErrorStep("The Element [%s] is Displayed".formatted(locator));
+                return false;
+            } catch (TimeoutException f) {
+                logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
+
+                return true;
+            }
         }
 
+
     }
+
 
     public void singleSwipeIntoScreen(String direction) {
         //Start Point in the Center of Screen
@@ -590,6 +607,7 @@ public class W3CTouchActions {
 
     }
 
+
     public void scrollUntilElementDisplayed(By targetLocator, String direction) {
         try {
             if (!driver.findElement(targetLocator).isDisplayed())
@@ -598,15 +616,16 @@ public class W3CTouchActions {
         } catch (Exception e) {
             try {
                 String[] previousPageSource = {""};
-
                 wait.until(d -> {
-                    // Repeat the Single Swipe in a Loop till element is displayed
-                    singleSwipeIntoScreen(direction);
 
-                    //Always detect if the page source is not changing so that we are reached the top or button of screen
-                    //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
+                    if (direction.equalsIgnoreCase("Vertical"))
+                        singleSwipeIntoScreen("Down");
+                    else if (direction.equalsIgnoreCase("Horizontal"))
+                        singleSwipeIntoScreen("Right");
+
                     String currentPageSource = driver.getPageSource();
                     if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        // The page source hasn't changed, so we've reached the bottom
                         throw new TimeoutException();
                     else
                         previousPageSource[0] = currentPageSource;
@@ -614,44 +633,100 @@ public class W3CTouchActions {
                     return driver.findElement(targetLocator).isDisplayed();
                 });
 
-                Thread.sleep(1000);
-
                 logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
-            } catch (Exception f) {
-                logErrorStep("Failed to Scroll into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator), f);
+                Thread.sleep(1000);
+            }catch (TimeoutException | InterruptedException f){
+                try{
+                    //Scroll in Opposite Direction
+                    String[] previousPageSource = {""};
+                    wait.until(g -> {
+                        // If the element is not found, perform a scroll action using Mobile Swipe of AndroidUIAutomator2
+                        if (direction.equalsIgnoreCase("Vertical"))
+                            singleSwipeIntoScreen("Up");
+                        else if (direction.equalsIgnoreCase("Horizontal"))
+                            singleSwipeIntoScreen("Left");
+
+                        String currentPageSource = driver.getPageSource();
+                        if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        // The page source hasn't changed, so we've reached the bottom
+                        {
+                            throw new TimeoutException();
+                        } else
+                            previousPageSource[0] = currentPageSource;
+                        return driver.findElement(targetLocator).isDisplayed();
+                    });
+
+                    logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
+                    Thread.sleep(1000);
+                }catch (TimeoutException | InterruptedException g){
+                    logErrorStep("Failed to Scroll into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator), g);
+                }
             }
         }
+
     }
 
     public void scrollUntilElementDisplayed(By targetLocator, String direction, By scrollableElement) {
+
         try {
-            String[] previousPageSource = {""};
+            if (!driver.findElement(targetLocator).isDisplayed())
+                throw new NotFoundException();
 
-            wait.until(d -> {
-                // Repeat the Single Swipe in a Loop till element is displayed
-                singleSwipeIntoElement(direction, scrollableElement);
-
-                //Always detect if the page source is not changing so that we are reached the top or button of screen
-                //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
-                String currentPageSource = driver.getPageSource();
-                if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
-                    throw new TimeoutException();
-                else
-                    previousPageSource[0] = currentPageSource;
-
-                return driver.findElement(targetLocator).isDisplayed();
-            });
-
-            Thread.sleep(1000);
-
-            logInfoStep("Scrolling into Scrollable Element [%s] in direction [%s] until Element [%s] is Displayed".formatted(scrollableElement, direction, targetLocator));
         } catch (Exception e) {
-            logErrorStep("Failed to Scroll into Scrollable Element [%s] in direction [%s] until Element [%s] is Displayed".formatted(scrollableElement, direction, targetLocator), e);
+            try {
+                String[] previousPageSource = {""};
+                wait.until(d -> {
+
+                    if (direction.equalsIgnoreCase("Vertical"))
+                        singleSwipeIntoElement("Down",scrollableElement);
+                    else if (direction.equalsIgnoreCase("Horizontal"))
+                        singleSwipeIntoElement("Right",scrollableElement);
+
+                    String currentPageSource = driver.getPageSource();
+                    if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        // The page source hasn't changed, so we've reached the bottom
+                        throw new TimeoutException();
+                    else
+                        previousPageSource[0] = currentPageSource;
+
+                    return driver.findElement(targetLocator).isDisplayed();
+                });
+
+                logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
+                Thread.sleep(1000);
+            }catch (TimeoutException | InterruptedException f){
+                try{
+                    //Scroll in Opposite Direction
+                    String[] previousPageSource = {""};
+                    wait.until(g -> {
+                        // If the element is not found, perform a scroll action using Mobile Swipe of AndroidUIAutomator2
+                        if (direction.equalsIgnoreCase("Vertical"))
+                            singleSwipeIntoElement("Up",scrollableElement);
+                        else if (direction.equalsIgnoreCase("Horizontal"))
+                            singleSwipeIntoElement("Left",scrollableElement);
+
+                        String currentPageSource = driver.getPageSource();
+                        if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        // The page source hasn't changed, so we've reached the bottom
+                        {
+                            throw new TimeoutException();
+                        } else
+                            previousPageSource[0] = currentPageSource;
+                        return driver.findElement(targetLocator).isDisplayed();
+                    });
+
+                    logInfoStep("Scrolling into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator));
+                    Thread.sleep(1000);
+                }catch (TimeoutException | InterruptedException g){
+                    logErrorStep("Failed to Scroll into Screen in direction [%s] until Element [%s] is Displayed".formatted(direction, targetLocator), g);
+                }
+            }
         }
 
     }
 
-    public static Point getElementCenter(WebElement element) {
+
+    public Point getElementCenter(WebElement element) {
         Point location = element.getLocation();
         Dimension size = element.getSize();
         int x = (size.getWidth() / 2) + location.getX();

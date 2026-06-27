@@ -1,6 +1,5 @@
-package page_w3cTouchActions;
+package W3cTouchActions.pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -47,35 +46,35 @@ public class ProductsPage extends _BasePage {
 
     //Actions
     @Step
-    public ProductsPage addProductToCartByButton(String productName, String direction) {
+    public ProductsPage addProductToCartByButton(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take tap action through utils
-        finger.tap(addToCartButton, direction);
+        finger.tap(addToCartButton, "Vertical");
         return this;
     }
 
     @Step
-    public ProductsPage addProductToCartByDragDrop(String productName, String direction) {
+    public ProductsPage addProductToCartByDragDrop(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take tap action through utils
-        finger.dragAndDrop(dragButton, dropButton, direction);
+        finger.dragAndDrop(dragButton, dropButton, "Vertical");
         return this;
     }
 
     @Step
-    public ProductsPage selectProduct(String productName, String direction) {
+    public ProductsPage selectProduct(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to re-initialize the locators again because we make change in the locator
         initializeLocator();
         //we take tap action through utils
-        finger.tap(productNameText, direction);
+        finger.tap(productNameText, "Vertical");
         return this;
     }
 
@@ -87,13 +86,13 @@ public class ProductsPage extends _BasePage {
     }
 
     @Step
-    public ProductsPage verifyAddToCartButtonIsRemovedFromPage(String productName, String direction) {
+    public ProductsPage verifyAddToCartButtonIsRemovedFromPage(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to re-initialize the locators again because we make change in the locator
         initializeLocator();
         //we take tap action through utils
-        boolean flag = finger.isElementNotDisplayed(addToCartButton, direction);
+        boolean flag = finger.isElementNotDisplayed(addToCartButton, "Vertical");
         Assert.assertTrue(flag);
         return this;
     }

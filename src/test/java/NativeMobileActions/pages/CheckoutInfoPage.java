@@ -1,6 +1,5 @@
-package page_w3cTouchActions;
+package NativeMobileActions.pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -49,40 +48,40 @@ public class CheckoutInfoPage extends _BasePage {
     //Actions
     @Step
     public CheckoutInfoPage typeFirstname(String name) {
-        finger.type(firstNameField, name);
+        action.type(firstNameField, name);
         return this;
     }
 
     @Step
     public CheckoutInfoPage typeLastname(String name) {
-        finger.type(lastNameField, name);
+        action.type(lastNameField, name);
         return this;
     }
 
     @Step
     public CheckoutInfoPage typePostalCode(String postalCode) {
-        finger.type(postalCodeField, postalCode);
+        action.type(postalCodeField, postalCode);
         return this;
     }
 
     @Step
     public CheckoutInfoPage confirmCheckoutInfo() {
-        finger.tap(continueButton);
+        action.tap(continueButton);
         return this;
     }
 
     //Validations
     @Step
     public CheckoutInfoPage verifyCheckoutInfoPageTitleIsDisplayed() {
-        boolean flag = finger.isElementDisplayed(pageTitleText);
+        boolean flag = action.isElementDisplayed(pageTitleText);
         Assert.assertTrue(flag);
         return this;
     }
 
     @Step
     public CheckoutInfoPage verifyErrorMessageIsDisplayed(String expected) {
-        Assert.assertTrue(finger.isElementDisplayed(errorMessageForEmptyField));
-        String actual = finger.readTextFromElement(errorMessageForEmptyField);
+        Assert.assertTrue(action.isElementDisplayed(errorMessageForEmptyField));
+        String actual = action.readTextFromElement(errorMessageForEmptyField);
         Assert.assertEquals(actual, expected);
         return this;
     }

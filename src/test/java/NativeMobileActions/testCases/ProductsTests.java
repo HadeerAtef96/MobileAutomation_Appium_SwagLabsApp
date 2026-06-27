@@ -1,10 +1,10 @@
-package testCases_w3cTouchActions;
+package NativeMobileActions.testCases;
 
+import NativeMobileActions.pages.LoginPage;
+import NativeMobileActions.pages.ProductDetailsPage;
+import NativeMobileActions.pages.ProductsPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import page_w3cTouchActions.LoginPage;
-import page_w3cTouchActions.ProductDetailsPage;
-import page_w3cTouchActions.ProductsPage;
 
 public class ProductsTests extends _BaseTest {
 
@@ -25,21 +25,21 @@ public class ProductsTests extends _BaseTest {
     public void verifyAllProductDetailsAreDisplayed() {
 
         new ProductsPage(driver)
-                .selectProduct(json.readTestData("products[0].name"), null);
+                .selectProduct(json.readTestData("products[0].name"));
 
         new ProductDetailsPage(driver)
                 .verifyProductImageIsDisplayed()
-                .verifyProductTitle(json.readTestData("products[0].name"), "Down")
-                .verifyProductDescription(json.readTestData("products[0].description"), "Down")
-                .verifyProductPrice(json.readTestData("products[0].price"), "Down")
-                .verifyAddToCartButtonDisplayed("Down");
+                .verifyProductTitle(json.readTestData("products[0].name"))
+                .verifyProductDescription(json.readTestData("products[0].description"))
+                .verifyProductPrice(json.readTestData("products[0].price"))
+                .verifyAddToCartButtonDisplayed();
     }
 
     @Test(groups = {"Positive"})
     public void verifyZoomActionOnProductImage() {
 
         new ProductsPage(driver)
-                .selectProduct(json.readTestData("products[0].name"), null);
+                .selectProduct(json.readTestData("products[0].name"));
 
         new ProductDetailsPage(driver)
                 .zoomInProductImage(1)

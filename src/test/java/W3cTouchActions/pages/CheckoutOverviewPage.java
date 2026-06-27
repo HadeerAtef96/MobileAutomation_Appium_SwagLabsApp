@@ -1,6 +1,5 @@
-package page_w3cTouchActions;
+package W3cTouchActions.pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -67,19 +66,19 @@ public class CheckoutOverviewPage extends _BasePage {
 
     //Actions
     @Step
-    public CheckoutOverviewPage finishCartCheckOut(String direction) {
-        finger.tap(finishButton, direction);
+    public CheckoutOverviewPage finishCartCheckOut() {
+        finger.tap(finishButton, "Vertical");
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage removeFromCartBySwipe(String productName, String direction) {
+    public CheckoutOverviewPage removeFromCartBySwipe(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we perform remove action through utils or w3c touch actions
-        finger.scrollUntilElementDisplayed(productCard, direction);
+        finger.scrollUntilElementDisplayed(productCard, "Vertical");
         finger.singleSwipeIntoElement("Right", productCard);
         finger.tap(removeFromCartRedButton);
         return this;
@@ -94,69 +93,69 @@ public class CheckoutOverviewPage extends _BasePage {
     }
 
     @Step
-    public CheckoutOverviewPage verifyProductIsAddedToCart(String productName, String direction) {
+    public CheckoutOverviewPage verifyProductIsAddedToCart(String productName) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils
-        boolean flag = finger.isElementDisplayed(productNameText, direction);
+        boolean flag = finger.isElementDisplayed(productNameText, "Vertical");
         Assert.assertTrue(flag);
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyProductIsRemovedFromCart(String productName, String direction) {
+    public CheckoutOverviewPage verifyProductIsRemovedFromCart(String productName ) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils
-        boolean flag = finger.isElementNotDisplayed(productNameText, direction);
+        boolean flag = finger.isElementNotDisplayed(productNameText, "Vertical");
         Assert.assertTrue(flag);
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyProductPrice(String productName, String direction, String price) {
+    public CheckoutOverviewPage verifyProductPrice(String productName, String price) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils
-        String actual = finger.readTextFromElement(productPriceText, direction);
+        String actual = finger.readTextFromElement(productPriceText,"Vertical");
         Assert.assertTrue(actual.contains(price));
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyProductQuantity(String productName, String direction, String quantity) {
+    public CheckoutOverviewPage verifyProductQuantity(String productName, String quantity) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils
-        String actual = finger.readTextFromElement(productQuantityText, direction);
+        String actual = finger.readTextFromElement(productQuantityText, "Vertical");
         Assert.assertEquals(actual, quantity);
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyProductDescription(String productName, String direction, String description) {
+    public CheckoutOverviewPage verifyProductDescription(String productName, String description) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
         //we take validation through utils
-        String actual = finger.readTextFromElement(productDescriptionText, direction);
+        String actual = finger.readTextFromElement(productDescriptionText, "Vertical");
         Assert.assertEquals(actual, description);
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyTotalPriceOfProducts(double expectedTotalPrice, String direction) {
+    public CheckoutOverviewPage verifyTotalPriceOfProducts(double expectedTotalPrice) {
         //Read Actual Price from Page and Remove the dollar sign
-        String actualString = finger.readTextFromElement(totalPriceText, direction).split("\\$", 2)[1];
+        String actualString = finger.readTextFromElement(totalPriceText, "Vertical").split("\\$", 2)[1];
 
         //Convert he Actual Price from String to double
         double actualPrice = Double.parseDouble(actualString);
@@ -173,15 +172,15 @@ public class CheckoutOverviewPage extends _BasePage {
     }
 
     @Step
-    public CheckoutOverviewPage verifyPaymentMethod(String paymentMethod, String direction) {
-        String actual = finger.readTextFromElement(paymentMethodText, direction);
+    public CheckoutOverviewPage verifyPaymentMethod(String paymentMethod) {
+        String actual = finger.readTextFromElement(paymentMethodText, "Vertical");
         Assert.assertEquals(actual, paymentMethod);
         return this;
     }
 
     @Step
-    public CheckoutOverviewPage verifyShippingMethod(String shippingMethod, String direction) {
-        String actual = finger.readTextFromElement(shippingMethodText, direction);
+    public CheckoutOverviewPage verifyShippingMethod(String shippingMethod) {
+        String actual = finger.readTextFromElement(shippingMethodText, "Vertical");
         Assert.assertEquals(actual, shippingMethod);
         return this;
     }

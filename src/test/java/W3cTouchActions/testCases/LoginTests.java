@@ -1,8 +1,8 @@
-package testCases_w3cTouchActions;
+package W3cTouchActions.testCases;
 
 import org.testng.annotations.Test;
-import page_w3cTouchActions.LoginPage;
-import page_w3cTouchActions.ProductsPage;
+import W3cTouchActions.pages.LoginPage;
+import W3cTouchActions.pages.ProductsPage;
 
 import static utils.DataGenerator.generateRandomName;
 import static utils.DataGenerator.generateRandomPassword;

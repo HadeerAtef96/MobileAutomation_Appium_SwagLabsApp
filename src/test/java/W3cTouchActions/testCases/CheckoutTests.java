@@ -1,8 +1,8 @@
-package testCases_w3cTouchActions;
+package W3cTouchActions.testCases;
 
+import W3cTouchActions.pages.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import page_w3cTouchActions.*;
 
 import static utils.DataGenerator.generateRandomName;
 import static utils.DataGenerator.generateRandomPostalCode;
@@ -25,13 +25,13 @@ public class CheckoutTests extends _BaseTest {
     @Test(groups = {"Positive"})
     public void verifyCheckoutOverviewDetails() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
-                .addProductToCartByButton(json.readTestData("products[2].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
+                .addProductToCartByButton(json.readTestData("products[2].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -42,42 +42,42 @@ public class CheckoutTests extends _BaseTest {
 
         new CheckoutOverviewPage(driver)
                 .verifyCheckoutCheckoutPageTitleIsDisplayed()
-                .verifyProductIsAddedToCart(json.readTestData("products[0].name"), "Down")
-                .verifyProductDescription(json.readTestData("products[0].name"), "Down", json.readTestData("products[0].description"))
-                .verifyProductPrice(json.readTestData("products[0].name"), "Down", json.readTestData("products[0].price"))
-                .verifyProductQuantity(json.readTestData("products[0].name"), "Down", json.readTestData("products[0].quantity"))
+                .verifyProductIsAddedToCart(json.readTestData("products[0].name"))
+                .verifyProductDescription(json.readTestData("products[0].name"), json.readTestData("products[0].description"))
+                .verifyProductPrice(json.readTestData("products[0].name"), json.readTestData("products[0].price"))
+                .verifyProductQuantity(json.readTestData("products[0].name"), json.readTestData("products[0].quantity"))
 
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down")
-                .verifyProductDescription(json.readTestData("products[2].name"), "Down", json.readTestData("products[2].description"))
-                .verifyProductPrice(json.readTestData("products[2].name"), "Down", json.readTestData("products[2].price"))
-                .verifyProductQuantity(json.readTestData("products[2].name"), "Down", json.readTestData("products[2].quantity"))
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"))
+                .verifyProductDescription(json.readTestData("products[2].name"),json.readTestData("products[2].description"))
+                .verifyProductPrice(json.readTestData("products[2].name"), json.readTestData("products[2].price"))
+                .verifyProductQuantity(json.readTestData("products[2].name"), json.readTestData("products[2].quantity"))
 
-                .verifyPaymentMethod(json.readTestData("paymentMethod"), "Down")
-                .verifyShippingMethod(json.readTestData("shippingMethod"), "Down")
+                .verifyPaymentMethod(json.readTestData("paymentMethod"))
+                .verifyShippingMethod(json.readTestData("shippingMethod"))
                 .verifyTotalPriceOfProducts(
                         Double.parseDouble(json.readTestData("products[0].price")) + Double.parseDouble(json.readTestData("products[2].price"))
-                        , "Down");
+                );
 
     }
 
     @Test(groups = {"Positive"})
     public void verifySuccessfulCheckoutCart() {
         new ProductsPage(driver)
-                .addProductToCartByDragDrop(json.readTestData("products[0].name"), null)
-                .addProductToCartByButton(json.readTestData("products[2].name"), null)
-                .selectProduct(json.readTestData("products[1].name"), "Down");
+                .addProductToCartByDragDrop(json.readTestData("products[0].name"))
+                .addProductToCartByButton(json.readTestData("products[2].name"))
+                .selectProduct(json.readTestData("products[1].name"));
 
         new ProductDetailsPage(driver)
                 .verifyProductImageIsDisplayed()
                 .zoomInProductImage(0.75)
                 .zoomOutProductImage(0.75)
-                .addProductToCart("Down")
+                .addProductToCart()
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .removeFromCartBySwipe(json.readTestData("products[0].name"), null)
-                .selectToCheckoutTheCart("Down");
+                .removeFromCartBySwipe(json.readTestData("products[0].name"))
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -87,11 +87,11 @@ public class CheckoutTests extends _BaseTest {
                 .confirmCheckoutInfo();
 
         new CheckoutOverviewPage(driver)
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down")
-                .verifyProductIsAddedToCart(json.readTestData("products[1].name"), "Down")
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"))
+                .verifyProductIsAddedToCart(json.readTestData("products[1].name"))
                 .verifyTotalPriceOfProducts(
-                        Double.parseDouble(json.readTestData("products[2].price")) + Double.parseDouble(json.readTestData("products[1].price")), "Down")
-                .finishCartCheckOut("Down");
+                        Double.parseDouble(json.readTestData("products[2].price")) + Double.parseDouble(json.readTestData("products[1].price")))
+                .finishCartCheckOut();
 
         new CheckoutSuccessPage(driver)
                 .verifySuccessImageIsDisplayed()
@@ -102,28 +102,28 @@ public class CheckoutTests extends _BaseTest {
     @Test(groups = {"Negative"})
     public void verifyCheckoutAfterEmptyTheCart() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
-                .addProductToCartByButton(json.readTestData("products[2].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
+                .addProductToCartByButton(json.readTestData("products[2].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .removeFromCartByButton(json.readTestData("products[0].name"), null)
-                .removeFromCartByButton(json.readTestData("products[2].name"), null)
-                .verifyCheckoutButtonIsRemovedFromPage("Down");
+                .removeFromCartByButton(json.readTestData("products[0].name"))
+                .removeFromCartByButton(json.readTestData("products[2].name"))
+                .verifyCheckoutButtonIsRemovedFromPage();
 
     }
 
     @Test(groups = {"Negative"})
     public void verifyTotalPriceIsUpdatedInCheckoutAfterRemovingProducts() {
         new ProductsPage(driver)
-                .addProductToCartByButton(json.readTestData("products[0].name"), null)
-                .addProductToCartByButton(json.readTestData("products[2].name"), null)
+                .addProductToCartByButton(json.readTestData("products[0].name"))
+                .addProductToCartByButton(json.readTestData("products[2].name"))
                 .navigateToCart();
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .selectToCheckoutTheCart("Down");
+                .selectToCheckoutTheCart();
 
         new CheckoutInfoPage(driver)
                 .verifyCheckoutInfoPageTitleIsDisplayed()
@@ -133,18 +133,18 @@ public class CheckoutTests extends _BaseTest {
                 .confirmCheckoutInfo();
 
         new CheckoutOverviewPage(driver)
-                .verifyProductIsAddedToCart(json.readTestData("products[0].name"), "Down")
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down")
+                .verifyProductIsAddedToCart(json.readTestData("products[0].name"))
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"))
                 .verifyTotalPriceOfProducts(
                         Double.parseDouble(json.readTestData("products[0].price")) + Double.parseDouble(json.readTestData("products[2].price"))
-                        , "Down");
+                );
 
         new CheckoutOverviewPage(driver)
-                .removeFromCartBySwipe(json.readTestData("products[0].name"), "Up")
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"), "Down")
+                .removeFromCartBySwipe(json.readTestData("products[0].name"))
+                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"))
                 .verifyTotalPriceOfProducts(
                         Double.parseDouble(json.readTestData("products[2].price"))
-                        , "Up");
+                );
     }
 
 }

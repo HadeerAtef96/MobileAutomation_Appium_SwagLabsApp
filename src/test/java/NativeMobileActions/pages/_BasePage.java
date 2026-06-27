@@ -1,4 +1,4 @@
-package page_w3cTouchActions;
+package NativeMobileActions.pages;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
@@ -7,20 +7,25 @@ import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import utils.elementActions.MobileActions;
 import utils.elementActions.NativeAndroidActions;
-import utils.elementActions.W3CTouchActions;
-import utils.elementActions.WebActions;
+import utils.elementActions.NativeIOSActions;
 
 
 public class _BasePage {
 
     //Common Variables
     AppiumDriver driver;
-    W3CTouchActions finger;
+    MobileActions action;
 
     //Constructor
     public _BasePage(AppiumDriver driver) {
-        finger = new W3CTouchActions(driver);
+        if (driver instanceof AndroidDriver) 
+            action = new NativeAndroidActions(driver);
+        
+        else if (driver instanceof IOSDriver)
+            action = new NativeIOSActions(driver);
+            
         this.driver = driver;
         initializeLocator();
     }
@@ -43,14 +48,14 @@ public class _BasePage {
     //Header Actions
     @Step
     public _BasePage navigateToCart() {
-        finger.doubleTap(cartIcon);
+        action.doubleTap(cartIcon);
         return this;
     }
 
     //Header Validation
     @Step
     public _BasePage verifyLogoIsDisplayed() {
-        boolean actualStatus = finger.isElementDisplayed(appLogo);
+        boolean actualStatus = action.isElementDisplayed(appLogo);
         Assert.assertTrue(actualStatus);
         return this;
     }

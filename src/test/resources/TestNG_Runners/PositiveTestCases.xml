@@ -3,7 +3,7 @@
 
 <suite name="SwagLabs App">
 
-    <test name="Positive Tests" enabled="true">
+    <test name="Positive Tests"> <parameter name="platformName" value="IOS"/>
 
         <groups>
             <run>
@@ -12,7 +12,7 @@
         </groups>
 
         <packages>
-            <package name="testCases_w3cTouchActions"/>
+            <package name="W3cTouchActions.testCases"/>
         </packages>
 
     </test>

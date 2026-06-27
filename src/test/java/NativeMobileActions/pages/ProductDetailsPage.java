@@ -1,6 +1,5 @@
-package page_w3cTouchActions;
+package NativeMobileActions.pages;
 
-import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -8,7 +7,6 @@ import io.appium.java_client.ios.IOSDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import utils.elementActions.WebActions;
 
 public class ProductDetailsPage extends _BasePage {
     //Variables
@@ -46,56 +44,55 @@ public class ProductDetailsPage extends _BasePage {
 
     //Actions
     @Step
-    public ProductDetailsPage addProductToCart(String direction) {
-        finger.singleSwipeIntoScreen(direction);
-        finger.tap(addToCartButton);
+    public ProductDetailsPage addProductToCart() {
+        action.tap(addToCartButton,"Vertical");
         return this;
     }
 
     @Step
     public ProductDetailsPage zoomInProductImage(double zoomingPercentage) {
-        finger.zoomIn(productImage, zoomingPercentage);
+        action.zoomIn(productImage, zoomingPercentage);
         return this;
     }
 
     @Step
     public ProductDetailsPage zoomOutProductImage(double zoomingPercentage) {
-        finger.zoomOut(productImage, zoomingPercentage);
+        action.zoomOut(productImage, zoomingPercentage);
         return this;
     }
 
     //Validations
     @Step
     public ProductDetailsPage verifyProductImageIsDisplayed() {
-        boolean actual = finger.isElementDisplayed(productImage);
+        boolean actual = action.isElementDisplayed(productImage);
         Assert.assertTrue(actual);
         return this;
     }
 
     @Step
-    public ProductDetailsPage verifyProductTitle(String expectedTitle, String direction) {
-        String actual = finger.readTextFromElement(productTitleText, direction);
+    public ProductDetailsPage verifyProductTitle(String expectedTitle) {
+        String actual = action.readTextFromElement(productTitleText, "Vertical");
         Assert.assertEquals(actual, expectedTitle);
         return this;
     }
 
     @Step
-    public ProductDetailsPage verifyProductDescription(String expectedDescription, String direction) {
-        String actual = finger.readTextFromElement(productDescriptionText, direction);
+    public ProductDetailsPage verifyProductDescription(String expectedDescription) {
+        String actual = action.readTextFromElement(productDescriptionText, "Vertical");
         Assert.assertEquals(actual, expectedDescription);
         return this;
     }
 
     @Step
-    public ProductDetailsPage verifyProductPrice(String expectedPrice, String direction) {
-        String actual = finger.readTextFromElement(productPriceText, direction);
+    public ProductDetailsPage verifyProductPrice(String expectedPrice) {
+        String actual = action.readTextFromElement(productPriceText, "Vertical");
         Assert.assertTrue(actual.contains(expectedPrice));
         return this;
     }
 
     @Step
-    public ProductDetailsPage verifyAddToCartButtonDisplayed(String direction) {
-        Assert.assertTrue(finger.isElementDisplayed(addToCartButton, direction));
+    public ProductDetailsPage verifyAddToCartButtonDisplayed() {
+        Assert.assertTrue(action.isElementDisplayed(addToCartButton, "Vertical"));
         return this;
     }
 }

@@ -27,11 +27,11 @@ public class AppiumFactory {
     private static AppiumDriverLocalService service;
 
     @Step
-    public static AppiumDriver openApp() {
+    public static AppiumDriver openApp(String platformType) {
         try {
             driver = null;
 
-            switch (getPropertiesValue("platformType")) {
+            switch (platformType) {
                 case "Android":
                     driver = new AndroidDriver(getAppiumServerURL(), getAndroidCapabilities());
                     logInfoStep("Starting the App [%s]".formatted(getPropertiesValue("android_appPackage")));
@@ -65,7 +65,7 @@ public class AppiumFactory {
 
             // Platform /OS Capabilities
             option.setPlatformName("Android");
-            option.setPlatformVersion(getPropertiesValue("platformVersion"));
+            option.setPlatformVersion(getPropertiesValue("android_platformVersion"));
             option.setAutomationName(getPropertiesValue("android_automationDriver"));
 
             // Device Capabilities
@@ -102,7 +102,7 @@ public class AppiumFactory {
 
             // Platform /OS Capabilities
             option.setPlatformName("IOS");
-            option.setPlatformVersion(getPropertiesValue("platformVersion"));
+            option.setPlatformVersion(getPropertiesValue("ios_platformVersion"));
             option.setAutomationName(getPropertiesValue("ios_automationDriver"));
 
             // Device Capabilities
