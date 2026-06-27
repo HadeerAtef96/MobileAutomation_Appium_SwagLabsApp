@@ -31,8 +31,17 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Test Data Generation using JavaFaker
 
 ## Features
-- Set
+- Creating Cross Platform Framework for both Android and IOS
+- Using Fluent Page Object Model for writing Test script and Page actions, thus chaining the Scenario steps and validations in one line of code
+- Simulating all Mobile Gestures like Tap / DoubleTap/ TapAndHold /Zoom / DragAndDrop/ Swipe, with only one command while Auto Scrolling in a given Direction to the Target Element till displayed into ViewPort
+- Using W3C Touch Actions for Mobile Gestures Automation similar to Real Finger Movemenets
+- Using Automation Driver Commands for Android "UiAutomator2" & IOS "XCUITest" for Mobile Gestures Automation in very simple code and more accurate than finger movements
+- Using Test Data Management for Storing all Test data in Json Files
+- Storing all Project Configurations and Appium Capabilities in Properties Files
+- Auto-Generation of Allure Report after Every Test Run and Logging all Test Steps and Screenshots in the Report
+- Logging All Steps in Console using Log4j2
 - 
+ 
 
 ## Utilities
 - AppiumDriver Factory
@@ -57,15 +66,15 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 ### Run all tests using TestNG Xml
 - RunAllTests.xml
 
-### Run positive and negative groups using TestNG Xml
+### Run positive groups using TestNG Xml
 - PositiveTestCases.xml
 
-### Run positive and negative groups using TestNG Xml
+### Run negative groups using TestNG Xml
 - NegativeTestCases.xml
 
 ## Author
 
-Hadeer Atef
+Hadeer 
 
 Software Testing Engineer
 
