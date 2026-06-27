@@ -5,11 +5,12 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 import org.testng.annotations.ITestAnnotation;
+import utils.RetryAnalyzer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-public class RetryTestListener extends TestListenerAdapter implements IAnnotationTransformer {
+public class TestListener extends TestListenerAdapter implements IAnnotationTransformer {
 
     public void onTestFailure(ITestResult result) {
         Reporter.setCurrentTestResult(result);

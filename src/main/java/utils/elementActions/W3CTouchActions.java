@@ -28,7 +28,7 @@ public class W3CTouchActions {
         this.driver = driver;
         //define the wait type and wait configuration
         wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(20))
+                .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(300))
                 .ignoring(ElementNotInteractableException.class)
                 .ignoring(NoSuchElementException.class)
@@ -463,7 +463,7 @@ public class W3CTouchActions {
             return false;
 
         } catch (TimeoutException e) {
-            logInfoStep("The Element [%s] is Displayed".formatted(locator));
+            logInfoStep("The Element [%s] is Not Displayed".formatted(locator));
             return true;
         }
 
