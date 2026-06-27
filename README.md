@@ -66,11 +66,37 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - JsonReader
 - PropertiesReader
 
-## Project Structure
-```text
+##📁 Project Structure
+MobileAutomation_Appium_SwagLabsApp
+│
+├── .github
+│   └── workflows
+│
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── utils
+│   │   └── resources
+│   │
+│   └── test
+│       ├── java
+│       │   ├── pages
+│       │   ├── actions
+│       │   ├── listeners
+│       │   ├── utilities
+│       │   └── testCases
+│       │
+│       └── resources
+│           ├── TestData
+│           ├── Properties
+│           └── XML Suites
+│
+├── pom.xml
+└── README.md
+
 
 ```
-## Running Tests
+##▶ Running Tests
 
 ### Run All Tests - using TestNG XML - on One Platform
 - RunAllTests.xml
@@ -84,11 +110,13 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 ### Run Negative Tests or Groups only - using TestNG XML - on One Platform
 - NegativeTestCases.xml
 
-## Author
+##👩‍💻 Author
 
-Hadeer 
+Hadeer Atef
 
-Software Testing Engineer
+Mobile Automation Test Engineer
+
+Java • Appium • TestNG • Selenium • REST Assured
 
 GitHub:
 https://github.com/HadeerAtef96
