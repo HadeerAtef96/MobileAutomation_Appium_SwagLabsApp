@@ -42,10 +42,11 @@ public class ProductsTests extends _BaseTest {
                 .selectProduct(json.readTestData("products[0].name"));
 
         new ProductDetailsPage(driver)
-                .zoomInProductImage(1)
+                .zoomInProductImage(0.5)
                 .verifyProductImageIsDisplayed()
-                .zoomOutProductImage(1)
+                .zoomOutProductImage(0.5)
                 .verifyProductImageIsDisplayed();
     }
 }
+
 

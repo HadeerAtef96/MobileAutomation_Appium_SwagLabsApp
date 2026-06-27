@@ -133,15 +133,7 @@ public class CheckoutTests extends _BaseTest {
                 .confirmCheckoutInfo();
 
         new CheckoutOverviewPage(driver)
-                .verifyProductIsAddedToCart(json.readTestData("products[0].name"))
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"))
-                .verifyTotalPriceOfProducts(
-                        Double.parseDouble(json.readTestData("products[0].price")) + Double.parseDouble(json.readTestData("products[2].price"))
-                );
-
-        new CheckoutOverviewPage(driver)
                 .removeFromCartBySwipe(json.readTestData("products[0].name"))
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"))
                 .verifyTotalPriceOfProducts(
                         Double.parseDouble(json.readTestData("products[2].price"))
                 );

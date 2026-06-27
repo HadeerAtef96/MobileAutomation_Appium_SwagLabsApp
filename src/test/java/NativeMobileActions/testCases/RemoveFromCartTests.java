@@ -33,9 +33,9 @@ public class RemoveFromCartTests extends _BaseTest {
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
                 .removeFromCartByButton(json.readTestData("products[0].name"))
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"))
                 .verifyProductIsAddedToCart(json.readTestData("products[1].name"))
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"));
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"))
+                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"));
     }
 
     @Test(groups = {"Positive"})
