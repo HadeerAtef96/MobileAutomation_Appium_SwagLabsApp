@@ -19,8 +19,8 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Fluent Page Object Model Design Pattern
 - Cross Platform Framework for both Android and IOS
 - W3C TouchActions for Simulating Mobile Gestures for Cross Platform Mobiles
-- UiAutomator2 Driver Actions for Simulating Mobile Gestures on Android Devices
-- XCUITest Driver Actions for Simulating Mobile Gestures on IOS Devices
+- UiAutomator2 Driver for Mobile Gestures Automation on Android Devices
+- XCUITest Driver for Mobile Gestures Automation on IOS Devices
 - Retry Mechanism for Flaky Tests
 - Fluent Wait Strategy for Identifying Elements
 - Appium Factory for creating Driver across Different Platforms and Capabilities
@@ -37,7 +37,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - Using W3C Touch Actions for Mobile Gestures Automation similar to Real Finger Movemenets
 - Using Automation Driver Commands for Android "UiAutomator2" & IOS "XCUITest" for Mobile Gestures Automation with very simple code and more accurate than finger movements
 - Using Test Data Management for Storing all Test data in Json Files
-- Managing all Project Configurations and Appium Capabilities in Properties Files
+- Managing Project Configurations and Appium Capabilities from Properties Files
 - Auto-Generation of Allure Report after Every Test Run and Logging all Test Steps and Screenshots in the Report
 - Logging All Steps in Console using Log4j2
 - Synchronizing All Elements Identifications and All Actions taken on elements inside Fluent Wait with lambda expression, so waiting till finding element and also taking the action
