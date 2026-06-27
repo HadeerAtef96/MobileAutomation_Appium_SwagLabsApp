@@ -29,9 +29,9 @@ public class ProductsTests extends _BaseTest {
 
         new ProductDetailsPage(driver)
                 .verifyProductImageIsDisplayed()
-                .verifyProductTitle(json.readTestData("products[0].name"),"Down")
-                .verifyProductDescription(json.readTestData("products[0].description"),"Down")
-                .verifyProductPrice(json.readTestData("products[0].price"),"Down")
+                .verifyProductTitle(json.readTestData("products[0].name"), "Down")
+                .verifyProductDescription(json.readTestData("products[0].description"), "Down")
+                .verifyProductPrice(json.readTestData("products[0].price"), "Down")
                 .verifyAddToCartButtonDisplayed("Down");
     }
 

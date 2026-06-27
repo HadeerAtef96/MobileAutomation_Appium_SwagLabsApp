@@ -16,10 +16,10 @@ public class WebActions {
 
     //Define Global Variables
     WebDriver driver;
-    Wait<WebDriver> wait  ;
+    Wait<WebDriver> wait;
 
     //Constructor
-    public WebActions (WebDriver driver){
+    public WebActions(WebDriver driver) {
         //Assign driver from page class to Action class
         this.driver = driver;
         //define the wait type and wait configuration
@@ -30,7 +30,7 @@ public class WebActions {
     }
 
     //ActionsMethods
-    public void clickWithWait (By locator){
+    public void clickWithWait(By locator) {
         //wait until the element is present in DOM or HTML
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         //wait until the element is visible on page on GUI
@@ -45,7 +45,7 @@ public class WebActions {
         });
     }
 
-    public void typingWithWait (By locator , String value ){
+    public void typingWithWait(By locator, String value) {
         //wait until the element is present in DOM or HTML
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         //wait until the element is visible on page on GUI
@@ -55,12 +55,12 @@ public class WebActions {
 
         //take the Type action inside wait with lambda function
         wait.until(d -> {
-            driver.findElement(locator).sendKeys( value);
+            driver.findElement(locator).sendKeys(value);
             return true;
         });
     }
 
-    public String readTextFromElement(By locator){
+    public String readTextFromElement(By locator) {
         //wait until the element is present in DOM or HTML
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         //wait until the element is visible on page on GUI
@@ -71,7 +71,7 @@ public class WebActions {
         return wait.until(d -> driver.findElement(locator).getText());
     }
 
-    public void selectFromDropDownByText(By locator,String text){
+    public void selectFromDropDownByText(By locator, String text) {
         //wait until the element is present in DOM or HTML
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         //wait until the element is visible on page on GUI
@@ -85,32 +85,34 @@ public class WebActions {
 
     }
 
-    public boolean isElementDisplayed(By locator){
+    public boolean isElementDisplayed(By locator) {
         //take the isDisplayed action inside wait with lambda function
-        try{
+        try {
             return wait.until(d -> driver.findElement(locator).isDisplayed());
-        }catch (TimeoutException e){
+        } catch (TimeoutException e) {
             return false;
         }
     }
 
-    public void acceptAlert(){
+    public void acceptAlert() {
         //wait until Alert is displayed
         wait.until(ExpectedConditions.alertIsPresent());
         //switch to alert window then click on ok button
         driver.switchTo().alert().accept();
     }
-    public void dismissAlert(){
+
+    public void dismissAlert() {
         //wait until Alert is displayed
         wait.until(ExpectedConditions.alertIsPresent());
         //switch to alert window then click on cancel button
         driver.switchTo().alert().dismiss();
     }
-    public String readTextFromAlert(){
+
+    public String readTextFromAlert() {
         //wait until Alert is displayed
         wait.until(ExpectedConditions.alertIsPresent());
         //switch to alert window then read text from alert
-       return driver.switchTo().alert().getText();
+        return driver.switchTo().alert().getText();
     }
 
 }

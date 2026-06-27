@@ -32,10 +32,10 @@ public class RemoveFromCartTests extends _BaseTest {
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .removeFromCartByButton(json.readTestData("products[0].name"),null)
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"),"Down")
-                .verifyProductIsAddedToCart(json.readTestData("products[1].name"),"Up")
-                .verifyProductIsAddedToCart(json.readTestData("products[2].name"),"Up");
+                .removeFromCartByButton(json.readTestData("products[0].name"), null)
+                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"), "Down")
+                .verifyProductIsAddedToCart(json.readTestData("products[1].name"), "Up")
+                .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Up");
     }
 
     @Test(groups = {"Positive"})
@@ -49,12 +49,12 @@ public class RemoveFromCartTests extends _BaseTest {
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .removeFromCartByButton(json.readTestData("products[0].name"),null)
-                .removeFromCartByButton(json.readTestData("products[2].name"),null)
-                .removeFromCartByButton(json.readTestData("products[1].name"),null)
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"),"Down")
-                .verifyProductIsRemovedFromCart(json.readTestData("products[2].name"),"Up")
-                .verifyProductIsRemovedFromCart(json.readTestData("products[1].name"),"Down");
+                .removeFromCartByButton(json.readTestData("products[0].name"), null)
+                .removeFromCartByButton(json.readTestData("products[2].name"), null)
+                .removeFromCartByButton(json.readTestData("products[1].name"), null)
+                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"), "Down")
+                .verifyProductIsRemovedFromCart(json.readTestData("products[2].name"), "Up")
+                .verifyProductIsRemovedFromCart(json.readTestData("products[1].name"), "Down");
     }
 
     @Test(groups = {"Positive"})
@@ -68,12 +68,12 @@ public class RemoveFromCartTests extends _BaseTest {
 
         new CartPage(driver)
                 .verifyCartPageTitleIsDisplayed()
-                .removeFromCartBySwipe(json.readTestData("products[0].name"),null)
-                .removeFromCartBySwipe(json.readTestData("products[2].name"),null)
-                .removeFromCartBySwipe(json.readTestData("products[1].name"),null)
-                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"),"Down")
-                .verifyProductIsRemovedFromCart(json.readTestData("products[2].name"),"Up")
-                .verifyProductIsRemovedFromCart(json.readTestData("products[1].name"),"Down");
+                .removeFromCartBySwipe(json.readTestData("products[0].name"), null)
+                .removeFromCartBySwipe(json.readTestData("products[2].name"), null)
+                .removeFromCartBySwipe(json.readTestData("products[1].name"), null)
+                .verifyProductIsRemovedFromCart(json.readTestData("products[0].name"), "Down")
+                .verifyProductIsRemovedFromCart(json.readTestData("products[2].name"), "Up")
+                .verifyProductIsRemovedFromCart(json.readTestData("products[1].name"), "Down");
     }
 
 }

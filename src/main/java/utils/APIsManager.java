@@ -4,10 +4,12 @@ import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import utils.logging_reporting.AllureReportHelper;
+import utils.logging_reporting.LogHelper;
 
 import java.util.Map;
 
-import static utils.LogHelper.*;
+import static utils.logging_reporting.LogHelper.*;
 
 public class APIsManager {
 
@@ -22,7 +24,7 @@ public class APIsManager {
             request.contentType(contentTypeValue + "; charset=utf-8");
 
             //Set the Body of Request either Json or Form Data
-            if(contentTypeValue != null){
+            if (contentTypeValue != null) {
                 switch (contentTypeValue) {
                     case "application/json":
                         request.body(requestBody);
@@ -65,24 +67,24 @@ public class APIsManager {
 
             //Print Request Body
             if (requestBody == null) {
-                logCustomStep(LogHelper.API,"Request Body : " + "{}");
+                logCustomStep(LogHelper.API, "Request Body : " + "{}");
             } else {
-                logCustomStep(LogHelper.API,"Request Body : " + requestBody.toString());
+                logCustomStep(LogHelper.API, "Request Body : " + requestBody.toString());
             }
 
             //Print Response Body
-            logCustomStep(LogHelper.API,"Response Body : " + response.getBody().asString());
+            logCustomStep(LogHelper.API, "Response Body : " + response.getBody().asString());
 
             return response;
 
         } catch (Exception e) {
-            logErrorStep("Failed to send [%s] Request for URL [%s].formatted(apiMethod, url)",e);
+            logErrorStep("Failed to send [%s] Request for URL [%s].formatted(apiMethod, url)", e);
             return null;
         }
     }
 
     public static Response sendGetRequest(String url, String parameterType, Map<String, Object> requestParameters, Map<String, Object> headers) {
-        try{
+        try {
             Response response;
 
             //Prepare Request with given
@@ -112,42 +114,42 @@ public class APIsManager {
 
             //Print Request Body
             if (requestParameters == null) {
-                logCustomStep(LogHelper.API,"Request Parameters : " + "{}");
+                logCustomStep(LogHelper.API, "Request Parameters : " + "{}");
             } else {
-                logCustomStep(LogHelper.API,"Request Parameters : " + requestParameters.toString());
+                logCustomStep(LogHelper.API, "Request Parameters : " + requestParameters.toString());
             }
 
             //Print Response Body
-            logCustomStep(LogHelper.API,"Response Body : " + response.getBody().asString());
+            logCustomStep(LogHelper.API, "Response Body : " + response.getBody().asString());
 
             return response;
-        }catch (Exception e){
-            logErrorStep("Failed to send Get Request for URL [%s].formatted(url)",e);
+        } catch (Exception e) {
+            logErrorStep("Failed to send Get Request for URL [%s].formatted(url)", e);
             return null;
         }
 
     }
 
-    public static String getStatusCodeFromResponse(Response response){
-        try{
+    public static String getStatusCodeFromResponse(Response response) {
+        try {
             int code = response.getStatusCode();
             logInfoStep("Getting Status Code [%d] from Response".formatted(code));
             return String.valueOf(code);
 
-        }catch (Exception e){
-            logErrorStep("Failed to Get Status Code from Response",e);
+        } catch (Exception e) {
+            logErrorStep("Failed to Get Status Code from Response", e);
             return null;
         }
     }
 
-    public static long getResponseTimeFromResponse(Response response){
-        try{
+    public static long getResponseTimeFromResponse(Response response) {
+        try {
             long time = response.getTime();
             logInfoStep("Getting Time [%d] from Response".formatted(time));
             return time;
 
-        }catch (Exception e){
-            logErrorStep("Failed to Get the Time from Response",e);
+        } catch (Exception e) {
+            logErrorStep("Failed to Get the Time from Response", e);
             return 0;
         }
     }

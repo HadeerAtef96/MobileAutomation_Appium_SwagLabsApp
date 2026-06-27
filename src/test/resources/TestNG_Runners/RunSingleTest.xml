@@ -5,9 +5,9 @@
 
     <test name="Single Test" enabled="true">
         <classes>
-            <class name = "testCases_w3cTouchActions.LoginTests">
+            <class name="testCases_w3cTouchActions.LoginTests">
                 <methods>
-                    <include name="loginWithValidUser" />
+                    <include name="loginWithValidUser"/>
                 </methods>
             </class>
         </classes>

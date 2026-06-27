@@ -12,58 +12,57 @@ public class LoginPage extends _BasePage {
     //Variables
 
     //Constructor
-    public LoginPage (AppiumDriver driver){
+    public LoginPage(AppiumDriver driver) {
         super(driver);
         super.initializeLocator();
     }
 
     //Locators
     private By userNameField;
-    private By passwordField ;
-    private By loginButton ;
+    private By passwordField;
+    private By loginButton;
     private By invalidUserErrorMessage;
 
     //Initialize Locators Based on Android or IOS
-    public void initializeLocator(){
-        if ( driver instanceof AndroidDriver){
+    public void initializeLocator() {
+        if (driver instanceof AndroidDriver) {
             userNameField = AppiumBy.accessibilityId("test-Username");
             passwordField = AppiumBy.accessibilityId("test-Password");
-            loginButton   = AppiumBy.accessibilityId("test-LOGIN");
+            loginButton = AppiumBy.accessibilityId("test-LOGIN");
             invalidUserErrorMessage = AppiumBy.xpath("//android.view.ViewGroup[@content-desc=\"test-Error message\"]//android.widget.TextView");
-        }
-        else if (driver instanceof IOSDriver){
+        } else if (driver instanceof IOSDriver) {
             userNameField = AppiumBy.accessibilityId("test-Username");
             passwordField = AppiumBy.accessibilityId("test-Password");
-            loginButton   = AppiumBy.accessibilityId("LOGIN");
-            invalidUserErrorMessage = AppiumBy.accessibilityId("");
+            loginButton = AppiumBy.accessibilityId("LOGIN");
+            invalidUserErrorMessage = AppiumBy.accessibilityId("test-Error message");
         }
     }
 
     //Actions
     @Step
-    public LoginPage typeUsername(String name){
-        finger.type(userNameField,name);
+    public LoginPage typeUsername(String name) {
+        finger.type(userNameField, name);
         return this;
     }
 
     @Step
-    public LoginPage typePassword(String password){
-        finger.type(passwordField,password);
+    public LoginPage typePassword(String password) {
+        finger.type(passwordField, password);
         return this;
     }
 
     @Step
-    public LoginPage clickOnLoginButton(){
+    public LoginPage clickOnLoginButton() {
         finger.tap(loginButton);
         return this;
     }
 
     //Validations
     @Step
-    public LoginPage verifyErrorMessageIsDisplayed(String expected){
-        Assert.assertTrue( finger.isElementDisplayed(invalidUserErrorMessage));
-        String actual =finger.readTextFromElement(invalidUserErrorMessage);
-        Assert.assertEquals(actual,expected);
+    public LoginPage verifyErrorMessageIsDisplayed(String expected) {
+        Assert.assertTrue(finger.isElementDisplayed(invalidUserErrorMessage));
+        String actual = finger.readTextFromElement(invalidUserErrorMessage);
+        Assert.assertEquals(actual, expected);
         return this;
     }
 

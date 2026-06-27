@@ -53,5 +53,14 @@ public class AddToCartTests extends _BaseTest {
                 .verifyProductIsAddedToCart(json.readTestData("products[2].name"), "Down");
     }
 
+    @Test(groups = {"Negative"})
+    public void addProductToCartTwice() {
+        new ProductsPage(driver)
+                .addProductToCartByButton(json.readTestData("products[0].name"), null)
+                .addProductToCartByDragDrop(json.readTestData("products[2].name"), null)
+                .verifyAddToCartButtonIsRemovedFromPage(json.readTestData("products[0].name"), "Down")
+                .verifyAddToCartButtonIsRemovedFromPage(json.readTestData("products[2].name"), "Up");
+    }
+
 }
 

@@ -1,21 +1,17 @@
-package utils;
+package utils.logging_reporting;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.restassured.AllureRestAssured;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
-import static utils.LogHelper.logErrorStep;
+import static utils.logging_reporting.LogHelper.logErrorStep;
 
 public class AllureReportHelper {
 
     public static void deleteOldFiles(File dirPath) {
         File filesList[] = dirPath.listFiles();
         if (filesList != null) {
-            for(File file : filesList) {
+            for (File file : filesList) {
                 if (!file.getName().equals("file.gitkeep")) {
                     if (file.isFile()) {
                         file.delete();
@@ -27,30 +23,28 @@ public class AllureReportHelper {
         }
     }
 
-    public static AllureRestAssured logApiRequestsToAllureReport(){
+    public static AllureRestAssured logApiRequestsToAllureReport() {
         try {
             return new AllureRestAssured()
                     .setRequestAttachmentName("Request Details")
                     .setResponseAttachmentName("Response Details");
-        }catch (Exception e){
+        } catch (Exception e) {
             logErrorStep("Failed to Log API Requests to Allure Report", e);
             return null;
         }
     }
 
-    public static void autoOpenAllureReport(){
-        try{
-            if(System.getProperty("os.name").contains("Windows")){
-                Runtime.getRuntime().exec(System.getProperty("user.dir")+"/Open_Allure_Report_Windows.bat");
-            }
-
-            else if(System.getProperty("os.name").contains("Mac")){
+    public static void autoOpenAllureReport() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                Runtime.getRuntime().exec(System.getProperty("user.dir") + "/Open_Allure_Report_Windows.bat");
+            } else if (System.getProperty("os.name").contains("Mac")) {
                 String script = System.getProperty("user.dir") + "/Open_Allure_Report_Mac.sh";
 
                 ProcessBuilder pb = new ProcessBuilder("bash", script);
                 Process process = pb.start();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logErrorStep("Failed to Open Allure Report", e);
         }
     }

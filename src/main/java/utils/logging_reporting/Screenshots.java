@@ -1,6 +1,5 @@
-package utils;
+package utils.logging_reporting;
 
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -17,7 +16,7 @@ import java.io.InputStream;
 
 public class Screenshots {
 
-    public static void captureSuccess(WebDriver driver,String testName) {
+    public static void captureSuccess(WebDriver driver, String testName) {
         try {
             // set the file name of the screenshot
             String fileName = "Successful Screenshot for [%s]".formatted(testName);
@@ -29,7 +28,7 @@ public class Screenshots {
             InputStream screenshot_resized = resizeScreenshot(screenshot, 300);
 
             //upload the screenshot into allure report
-            Allure.addAttachment(fileName, screenshot_resized );
+            Allure.addAttachment(fileName, screenshot_resized);
 
             //log the action into console
             LogHelper.logInfoStep("Capturing Screenshot for Succeeded Scenario");
@@ -39,7 +38,7 @@ public class Screenshots {
         }
     }
 
-    public static void captureFailure(WebDriver driver,String testName) {
+    public static void captureFailure(WebDriver driver, String testName) {
         try {
             // set the file name of the screenshot
             String fileName = "Failed Screenshot for [%s]".formatted(testName);
@@ -51,7 +50,7 @@ public class Screenshots {
             InputStream screenshot_resized = resizeScreenshot(screenshot, 300);
 
             //upload the screenshot into allure report
-            Allure.addAttachment(fileName, screenshot_resized );
+            Allure.addAttachment(fileName, screenshot_resized);
 
             //log the action into console
             LogHelper.logInfoStep("Capturing Screenshot for Failed Scenario");

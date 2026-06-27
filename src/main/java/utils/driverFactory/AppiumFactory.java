@@ -1,4 +1,4 @@
-package utils;
+package utils.driverFactory;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.InteractsWithApps;
@@ -10,7 +10,6 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.qameta.allure.Step;
-import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -19,12 +18,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 
-import static utils.LogHelper.logErrorStep;
-import static utils.LogHelper.logInfoStep;
+import static utils.logging_reporting.LogHelper.logErrorStep;
+import static utils.logging_reporting.LogHelper.logInfoStep;
 import static utils.PropertiesReader.getPropertiesValue;
 
 public class AppiumFactory {
-    static AppiumDriver driver;
+    public static AppiumDriver driver;
     private static AppiumDriverLocalService service;
 
     @Step
@@ -61,7 +60,8 @@ public class AppiumFactory {
             option.setCapability("autoGrantPermissions", Boolean.parseBoolean(getPropertiesValue("autoGrantPermission")));
 
             option.setCapability("uiautomator2ServerInstallTimeout", 180000);
-            option.setNewCommandTimeout(Duration.ofSeconds(60));
+            option.setNewCommandTimeout(Duration.ofSeconds(120000));
+            option.setCapability("appium:adbExecTimeout", 120000);
 
             // Platform /OS Capabilities
             option.setPlatformName("Android");
@@ -153,7 +153,6 @@ public class AppiumFactory {
 
     }
 
-    @Step
     public static void startAppiumServer() {
         String withoutHttp = getPropertiesValue("appiumServerURL").split("://", 2)[1];
 
@@ -192,7 +191,6 @@ public class AppiumFactory {
         }
     }
 
-    @Step
     public static void stopAppiumServer() {
         try {
             if (service.isRunning()) {

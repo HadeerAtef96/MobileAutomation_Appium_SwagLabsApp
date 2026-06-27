@@ -1,5 +1,6 @@
 package page_w3cTouchActions;
 
+import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -12,7 +13,7 @@ public class CheckoutInfoPage extends _BasePage {
     //Variables
 
     //Constructor
-    public CheckoutInfoPage(AppiumDriver driver){
+    public CheckoutInfoPage(AppiumDriver driver) {
         super(driver);
         super.initializeLocator();
     }
@@ -26,60 +27,63 @@ public class CheckoutInfoPage extends _BasePage {
     private By continueButton;
 
     //Initialize Locators Based on Android or IOS
-    public void initializeLocator(){
-        if ( driver instanceof AndroidDriver){
+    public void initializeLocator() {
+        if (driver instanceof AndroidDriver) {
             firstNameField = AppiumBy.accessibilityId("test-First Name");
             lastNameField = AppiumBy.accessibilityId("test-Last Name");
-            postalCodeField  = AppiumBy.accessibilityId("test-Zip/Postal Code");
+            postalCodeField = AppiumBy.accessibilityId("test-Zip/Postal Code");
             errorMessageForEmptyField = AppiumBy.xpath("//android.view.ViewGroup[@content-desc=\"test-Error message\"]//android.widget.TextView");
             pageTitleText = AppiumBy.xpath("//android.widget.TextView[@text=\"CHECKOUT: INFORMATION\"]");
             continueButton = AppiumBy.accessibilityId("test-CONTINUE");
-        }
-        else if (driver instanceof IOSDriver){
-            firstNameField = AppiumBy.accessibilityId("test-Username");
-            lastNameField = AppiumBy.accessibilityId("test-Password");
-            postalCodeField   = AppiumBy.accessibilityId("LOGIN");
+
+        } else if (driver instanceof IOSDriver) {
+            firstNameField = AppiumBy.accessibilityId("test-First Name");
+            lastNameField = AppiumBy.accessibilityId("test-Last Name");
+            postalCodeField = AppiumBy.accessibilityId("test-Zip/Postal Code");
+            errorMessageForEmptyField = AppiumBy.accessibilityId("test-Error message");
+            pageTitleText = AppiumBy.xpath("//XCUIElementTypeStaticText[@name=\"CHECKOUT: INFORMATION\"]");
+            continueButton = AppiumBy.accessibilityId("test-CONTINUE");
         }
     }
 
     //Actions
     @Step
-    public CheckoutInfoPage typeFirstname(String name){
-        finger.type(firstNameField,name);
+    public CheckoutInfoPage typeFirstname(String name) {
+        finger.type(firstNameField, name);
         return this;
     }
 
     @Step
-    public CheckoutInfoPage typeLastname(String name){
-        finger.type(lastNameField,name);
+    public CheckoutInfoPage typeLastname(String name) {
+        finger.type(lastNameField, name);
         return this;
     }
 
     @Step
-    public CheckoutInfoPage typePostalCode(String postalCode){
-        finger.type(postalCodeField,postalCode);
+    public CheckoutInfoPage typePostalCode(String postalCode) {
+        finger.type(postalCodeField, postalCode);
         return this;
     }
 
     @Step
-    public CheckoutInfoPage confirmCheckoutInfo(){
+    public CheckoutInfoPage confirmCheckoutInfo() {
         finger.tap(continueButton);
         return this;
     }
 
     //Validations
     @Step
-    public CheckoutInfoPage verifyCheckoutInfoPageTitleIsDisplayed(){
+    public CheckoutInfoPage verifyCheckoutInfoPageTitleIsDisplayed() {
         boolean flag = finger.isElementDisplayed(pageTitleText);
         Assert.assertTrue(flag);
         return this;
     }
 
     @Step
-    public CheckoutInfoPage verifyErrorMessageIsDisplayed(String expected){
-        Assert.assertTrue( finger.isElementDisplayed(errorMessageForEmptyField));
-        String actual =finger.readTextFromElement(errorMessageForEmptyField);
-        Assert.assertEquals(actual,expected);
+    public CheckoutInfoPage verifyErrorMessageIsDisplayed(String expected) {
+        Assert.assertTrue(finger.isElementDisplayed(errorMessageForEmptyField));
+        String actual = finger.readTextFromElement(errorMessageForEmptyField);
+        Assert.assertEquals(actual, expected);
         return this;
     }
 

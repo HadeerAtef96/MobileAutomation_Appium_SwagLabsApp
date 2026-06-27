@@ -1,27 +1,19 @@
 package utils.elementActions;
 
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import utils.PropertiesReader;
 
 import java.time.Duration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.openqa.selenium.interactions.PointerInput.Kind.TOUCH;
-import static org.openqa.selenium.interactions.PointerInput.Origin.viewport;
-import static utils.LogHelper.logErrorStep;
-import static utils.LogHelper.logInfoStep;
+import static utils.logging_reporting.LogHelper.logErrorStep;
+import static utils.logging_reporting.LogHelper.logInfoStep;
 
 
 public class NativeAndroidActions {
@@ -354,8 +346,10 @@ public class NativeAndroidActions {
             case "Up" -> param.put("direction", "up");
             case "Left" -> param.put("direction", "left");
             case "Right" -> param.put("direction", "right");
-            case null -> {}
-            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
+            case null -> {
+            }
+            default ->
+                    logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
         driver.executeScript("mobile: scrollGesture", param);
@@ -366,15 +360,17 @@ public class NativeAndroidActions {
 
         Map<String, Object> param = new HashMap<>();
         param.put("percent", 1);
-        param.put("elementId",((RemoteWebElement)driver.findElement(scrollableElement)).getId());
+        param.put("elementId", ((RemoteWebElement) driver.findElement(scrollableElement)).getId());
 
         switch (direction) {
             case "Down" -> param.put("direction", "down");
             case "Up" -> param.put("direction", "up");
             case "Left" -> param.put("direction", "left");
             case "Right" -> param.put("direction", "right");
-            case null -> {}
-            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
+            case null -> {
+            }
+            default ->
+                    logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
         driver.executeScript("mobile: scrollGesture", param);

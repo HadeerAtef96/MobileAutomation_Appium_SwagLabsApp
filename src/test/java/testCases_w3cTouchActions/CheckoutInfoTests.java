@@ -22,8 +22,8 @@ public class CheckoutInfoTests extends _BaseTest {
 
     }
 
-    @Test (groups = {"Positive"})
-    public void fillCheckoutInfoWithValidData(){
+    @Test(groups = {"Positive"})
+    public void fillCheckoutInfoWithValidData() {
         new ProductsPage(driver)
                 .addProductToCartByButton(json.readTestData("products[0].name"), null)
                 .navigateToCart();
@@ -44,8 +44,8 @@ public class CheckoutInfoTests extends _BaseTest {
 
     }
 
-    @Test (groups = {"Negative"})
-    public void fillCheckoutInfoWithEmptyFirstName(){
+    @Test(groups = {"Negative"})
+    public void fillCheckoutInfoWithEmptyFirstName() {
         new ProductsPage(driver)
                 .addProductToCartByButton(json.readTestData("products[0].name"), null)
                 .navigateToCart();
@@ -62,8 +62,8 @@ public class CheckoutInfoTests extends _BaseTest {
                 .verifyErrorMessageIsDisplayed(json.readTestData("errorMessages.emptyFirstName"));
     }
 
-    @Test (groups = {"Negative"})
-    public void fillCheckoutInfoWithEmptyLastName(){
+    @Test(groups = {"Negative"})
+    public void fillCheckoutInfoWithEmptyLastName() {
         new ProductsPage(driver)
                 .addProductToCartByButton(json.readTestData("products[0].name"), null)
                 .navigateToCart();
@@ -80,8 +80,8 @@ public class CheckoutInfoTests extends _BaseTest {
                 .verifyErrorMessageIsDisplayed(json.readTestData("errorMessages.emptyLastName"));
     }
 
-    @Test (groups = {"Negative"})
-    public void fillCheckoutInfoWithEmptyPostalCode(){
+    @Test(groups = {"Negative"})
+    public void fillCheckoutInfoWithEmptyPostalCode() {
         new ProductsPage(driver)
                 .addProductToCartByButton(json.readTestData("products[0].name"), null)
                 .navigateToCart();

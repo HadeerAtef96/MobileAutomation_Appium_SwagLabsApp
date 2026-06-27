@@ -1,4 +1,4 @@
-package utils;
+package utils.driverFactory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,10 +13,10 @@ import static utils.PropertiesReader.getPropertiesValue;
 public class BrowserFactory {
     static WebDriver driver;
 
-    public static WebDriver openBrowser(){
+    public static WebDriver openBrowser() {
         driver = null;
 
-        switch(getPropertiesValue("browserType")){
+        switch (getPropertiesValue("browserType")) {
             case "Chrome":
                 driver = new ChromeDriver(getChromeOptions());
                 break;
@@ -33,10 +33,10 @@ public class BrowserFactory {
         return driver;
     }
 
-    public static WebDriver openBrowser(String browserType){
+    public static WebDriver openBrowser(String browserType) {
         driver = null;
 
-        switch(browserType){
+        switch (browserType) {
             case "Chrome":
                 driver = new ChromeDriver(getChromeOptions());
                 break;
@@ -54,8 +54,7 @@ public class BrowserFactory {
     }
 
 
-    private static ChromeOptions getChromeOptions()
-    {
+    private static ChromeOptions getChromeOptions() {
         ChromeOptions option = new ChromeOptions();
         if (getPropertiesValue("browserWindowMode").equalsIgnoreCase("Maximized"))
             option.addArguments("--start-maximized");
@@ -65,8 +64,7 @@ public class BrowserFactory {
         return option;
     }
 
-    private static EdgeOptions getEdgeOptions()
-    {
+    private static EdgeOptions getEdgeOptions() {
         EdgeOptions option = new EdgeOptions();
         if (getPropertiesValue("browserWindowMode").equalsIgnoreCase("Maximized"))
             option.addArguments("--start-maximized");
@@ -76,8 +74,7 @@ public class BrowserFactory {
         return option;
     }
 
-    private static FirefoxOptions getFireFoxOptions()
-    {
+    private static FirefoxOptions getFireFoxOptions() {
         FirefoxOptions option = new FirefoxOptions();
         if (getPropertiesValue("browserWindowMode").equalsIgnoreCase("Maximized"))
             option.addArguments("--start-maximized");
@@ -87,7 +84,7 @@ public class BrowserFactory {
         return option;
     }
 
-    public static void closeBrowser(){
+    public static void closeBrowser() {
         driver.quit();
     }
 }

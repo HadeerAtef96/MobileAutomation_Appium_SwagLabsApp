@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 import java.util.List;
 import java.util.Random;
 
-import static utils.LogHelper.logInfoStep;
+import static utils.logging_reporting.LogHelper.logInfoStep;
 
 public class DataGenerator {
 
@@ -22,7 +22,8 @@ public class DataGenerator {
         //Get Random Email by Java Faker
         String email = faker.internet().emailAddress();
         logInfoStep("Generating Random Email [%s]".formatted(email));
-        return email;    }
+        return email;
+    }
 
     public static String generateRandomFullName() {
         String name = faker.name().fullName();
@@ -44,13 +45,13 @@ public class DataGenerator {
     }
 
     public static String generateRandomPhone() {
-        int phone = faker.number().numberBetween(10000000,1000000000);
+        int phone = faker.number().numberBetween(10000000, 1000000000);
         logInfoStep("Generating Random phone [%s]".formatted(phone));
         return Integer.toString(phone);
     }
 
     public static String generateRandomCompany() {
-        String company = faker.company().industry()+"!!";
+        String company = faker.company().industry() + "!!";
         logInfoStep("Generating Random Company [%s]".formatted(company));
         return company;
     }
@@ -61,8 +62,7 @@ public class DataGenerator {
         return code;
     }
 
-    public static String generateItemFromList(List<String> list)
-    {
+    public static String generateItemFromList(List<String> list) {
         int randomIndex = new Random().nextInt(list.size());
         return list.get(randomIndex);
     }

@@ -9,8 +9,8 @@ import static utils.DataGenerator.generateRandomPassword;
 
 public class LoginTests extends _BaseTest {
 
-    @Test (groups = {"Positive"})
-    public void loginWithValidUser(){
+    @Test(groups = {"Positive"})
+    public void loginWithValidUser() {
 
         new LoginPage(driver)
                 .typeUsername(json.readTestData("validUser.username"))
@@ -18,12 +18,12 @@ public class LoginTests extends _BaseTest {
                 .clickOnLoginButton();
 
         new ProductsPage(driver)
-                 .verifyProductsPageTitleIsDisplayed();
+                .verifyProductsPageTitleIsDisplayed();
 
     }
 
-    @Test (groups = {"Negative"})
-    public void loginWithInvalidUser(){
+    @Test(groups = {"Negative"})
+    public void loginWithInvalidUser() {
         new LoginPage(driver)
                 .typeUsername(generateRandomName())
                 .typePassword(generateRandomPassword())
@@ -31,8 +31,8 @@ public class LoginTests extends _BaseTest {
                 .verifyErrorMessageIsDisplayed(json.readTestData("errorMessages.invalidUser"));
     }
 
-    @Test (groups = {"Negative"})
-    public void loginWithLockedUser(){
+    @Test(groups = {"Negative"})
+    public void loginWithLockedUser() {
         new LoginPage(driver)
                 .typeUsername(json.readTestData("lockedUser.username"))
                 .typePassword(json.readTestData("lockedUser.password"))

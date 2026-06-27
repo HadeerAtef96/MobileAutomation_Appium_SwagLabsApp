@@ -4,10 +4,10 @@ import io.appium.java_client.AppiumDriver;
 
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import utils.AllureReportHelper;
-import utils.AppiumFactory;
+import utils.logging_reporting.AllureReportHelper;
+import utils.driverFactory.AppiumFactory;
 import utils.JsonReader;
-import utils.Screenshots;
+import utils.logging_reporting.Screenshots;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,13 +43,13 @@ public class _BaseTest {
     public void afterMethod(ITestResult result) {
 
         //Capture Screenshot
-        if (result.getStatus() == 1){
-            Screenshots.captureSuccess(driver,result.getMethod().getMethodName());
-        }
-
-        else if (result.getStatus() == 2){
-            Screenshots.captureFailure(driver,result.getMethod().getMethodName());
-        }
+//        if (result.getStatus() == 1){
+//            Screenshots.captureSuccess(driver,result.getMethod().getMethodName());
+//        }
+//
+//        else if (result.getStatus() == 2){
+//            Screenshots.captureFailure(driver,result.getMethod().getMethodName());
+//        }
 
         //Close the Application
 //        AppiumFactory.closeApp();

@@ -3,9 +3,7 @@ package utils.elementActions;
 import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Pause;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.support.ui.*;
 import utils.PropertiesReader;
 
@@ -14,9 +12,8 @@ import java.util.List;
 
 import static org.openqa.selenium.interactions.PointerInput.Kind.TOUCH;
 import static org.openqa.selenium.interactions.PointerInput.Origin.viewport;
-import static utils.LogHelper.logErrorStep;
-import static utils.LogHelper.logInfoStep;
-import static utils.PropertiesReader.getPropertiesValue;
+import static utils.logging_reporting.LogHelper.logErrorStep;
+import static utils.logging_reporting.LogHelper.logInfoStep;
 
 
 public class W3CTouchActions {
@@ -31,7 +28,7 @@ public class W3CTouchActions {
         this.driver = driver;
         //define the wait type and wait configuration
         wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(10))
+                .withTimeout(Duration.ofSeconds(20))
                 .pollingEvery(Duration.ofMillis(300))
                 .ignoring(ElementNotInteractableException.class)
                 .ignoring(NoSuchElementException.class)
@@ -217,15 +214,15 @@ public class W3CTouchActions {
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
-            Point start1 = new Point(elementCenterCoordinates.getX() -elementWidth/6, elementCenterCoordinates.getY());
-            Point start2 = new Point(elementCenterCoordinates.getX() +elementWidth/6, elementCenterCoordinates.getY());
+            Point start1 = new Point(elementCenterCoordinates.getX() - elementWidth / 6, elementCenterCoordinates.getY());
+            Point start2 = new Point(elementCenterCoordinates.getX() + elementWidth / 6, elementCenterCoordinates.getY());
 
             //Find the end point of each finger
-            int x = (int) (start1.getX() - zoomingPercentage* ((double) elementWidth /3));
+            int x = (int) (start1.getX() - zoomingPercentage * ((double) elementWidth / 3));
             int y = start1.getY();
             Point end1 = new Point(x, y);
 
-            int a = (int) (start2.getX() + zoomingPercentage* ((double) elementWidth /3));
+            int a = (int) (start2.getX() + zoomingPercentage * ((double) elementWidth / 3));
             int b = start2.getY();
             Point end2 = new Point(a, b);
 
@@ -280,15 +277,15 @@ public class W3CTouchActions {
 
             //Find the start point of each finger
             Point elementCenterCoordinates = getElementCenter(element);
-            Point start1 = new Point(elementCenterCoordinates.getX() -elementWidth/6, elementCenterCoordinates.getY());
-            Point start2 = new Point(elementCenterCoordinates.getX() +elementWidth/6, elementCenterCoordinates.getY());
+            Point start1 = new Point(elementCenterCoordinates.getX() - elementWidth / 6, elementCenterCoordinates.getY());
+            Point start2 = new Point(elementCenterCoordinates.getX() + elementWidth / 6, elementCenterCoordinates.getY());
 
             //Find the end point of each finger
-            int x = (int) (start1.getX() - zoomingPercentage* ((double) elementWidth /3));
+            int x = (int) (start1.getX() - zoomingPercentage * ((double) elementWidth / 3));
             int y = start1.getY();
             Point end1 = new Point(x, y);
 
-            int a = (int) (start2.getX() + zoomingPercentage* ((double) elementWidth /3));
+            int a = (int) (start2.getX() + zoomingPercentage * ((double) elementWidth / 3));
             int b = start2.getY();
             Point end2 = new Point(a, b);
 
@@ -339,13 +336,15 @@ public class W3CTouchActions {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
 
             //take the Type action inside wait with lambda function
-            wait.until(d -> {
-                driver.findElement(locator).clear();
-                return true;
-            });
 
             wait.until(d -> {
                 driver.findElement(locator).sendKeys(value);
+
+                //if the value is not typed correctly, clear and retype again
+                if (!driver.findElement(locator).getText().equalsIgnoreCase(value)){
+                    driver.findElement(locator).clear();
+                    driver.findElement(locator).sendKeys(value);
+                }
                 return true;
             });
 
@@ -405,17 +404,38 @@ public class W3CTouchActions {
     @Step
     public boolean isElementDisplayed(By locator, String direction) {
         try {
-            wait.until(d -> {
-                singleSwipeIntoScreen(direction);
-                return driver.findElement(locator).isDisplayed();
-            });
+            if (!driver.findElement(locator).isDisplayed())
+                throw new NotFoundException();
+            else {
+                logInfoStep("The Element [%s] is Displayed".formatted(locator));
+                return true;
+            }
 
-            logInfoStep("The Element [%s] is Displayed".formatted(locator));
-            return true;
+        } catch (Exception e) {
+            try {
+                String[] previousPageSource = {""};
+                wait.until(d -> {
+                    // Repeat the Single Swipe in a Loop till element is displayed
+                    singleSwipeIntoScreen(direction);
 
-        } catch (TimeoutException e) {
-            logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
-            return false;
+                    //Always detect if the page source is not changing so that we are reached the top or button of screen
+                    //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
+                    String currentPageSource = driver.getPageSource();
+                    if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        throw new TimeoutException();
+                    else
+                        previousPageSource[0] = currentPageSource;
+
+                    return driver.findElement(locator).isDisplayed();
+                });
+
+                logInfoStep("The Element [%s] is Displayed".formatted(locator));
+                return true;
+
+            } catch (TimeoutException f) {
+                logErrorStep("The Element [%s] is Not Displayed".formatted(locator));
+                return false;
+            }
         }
     }
 
@@ -423,8 +443,20 @@ public class W3CTouchActions {
     public boolean isElementNotDisplayed(By locator, String direction) {
 
         try {
+            String[] previousPageSource = {""};
+
             wait.until(d -> {
+                // Repeat the Single Swipe in a Loop till element is displayed
                 singleSwipeIntoScreen(direction);
+
+                //Always detect if the page source is not changing so that we are reached the top or button of screen
+                //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
+                String currentPageSource = driver.getPageSource();
+                if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                    throw new TimeoutException();
+                else
+                    previousPageSource[0] = currentPageSource;
+
                 return driver.findElement(locator).isDisplayed();
             });
             logErrorStep("The Element [%s] is Displayed".formatted(locator));
@@ -559,14 +591,26 @@ public class W3CTouchActions {
     }
 
     public void scrollUntilElementDisplayed(By targetLocator, String direction) {
-        try{
+        try {
             if (!driver.findElement(targetLocator).isDisplayed())
                 throw new NotFoundException();
 
         } catch (Exception e) {
             try {
+                String[] previousPageSource = {""};
+
                 wait.until(d -> {
+                    // Repeat the Single Swipe in a Loop till element is displayed
                     singleSwipeIntoScreen(direction);
+
+                    //Always detect if the page source is not changing so that we are reached the top or button of screen
+                    //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
+                    String currentPageSource = driver.getPageSource();
+                    if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                        throw new TimeoutException();
+                    else
+                        previousPageSource[0] = currentPageSource;
+
                     return driver.findElement(targetLocator).isDisplayed();
                 });
 
@@ -581,8 +625,20 @@ public class W3CTouchActions {
 
     public void scrollUntilElementDisplayed(By targetLocator, String direction, By scrollableElement) {
         try {
+            String[] previousPageSource = {""};
+
             wait.until(d -> {
+                // Repeat the Single Swipe in a Loop till element is displayed
                 singleSwipeIntoElement(direction, scrollableElement);
+
+                //Always detect if the page source is not changing so that we are reached the top or button of screen
+                //If we screen top or button, the wait loop is broken before the timeout and scrolling will be stopped
+                String currentPageSource = driver.getPageSource();
+                if (currentPageSource.equalsIgnoreCase(previousPageSource[0]))
+                    throw new TimeoutException();
+                else
+                    previousPageSource[0] = currentPageSource;
+
                 return driver.findElement(targetLocator).isDisplayed();
             });
 

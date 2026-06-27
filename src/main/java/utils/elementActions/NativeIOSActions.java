@@ -12,8 +12,8 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static utils.LogHelper.logErrorStep;
-import static utils.LogHelper.logInfoStep;
+import static utils.logging_reporting.LogHelper.logErrorStep;
+import static utils.logging_reporting.LogHelper.logInfoStep;
 
 
 public class NativeIOSActions {
@@ -138,7 +138,7 @@ public class NativeIOSActions {
             wait.until(ExpectedConditions.elementToBeClickable(startLocator));
 
             //perform the drag and drop action
-            Point startPoint = getElementCenter( driver.findElement(startLocator));
+            Point startPoint = getElementCenter(driver.findElement(startLocator));
             Point endPoint = getElementCenter(driver.findElement(destinationLocator));
 
             Map<String, Object> param = new HashMap<>();
@@ -173,7 +173,7 @@ public class NativeIOSActions {
             //perform the zoom in action
             Map<String, Object> param = new HashMap<>();
             param.put("elementId", ((RemoteWebElement) driver.findElement(locator)).getId());
-            param.put("scale", 1+zoomingPercentage);
+            param.put("scale", 1 + zoomingPercentage);
             param.put("velocity", 2.2);
             driver.executeScript("mobile: pinch", param);
 
@@ -331,15 +331,17 @@ public class NativeIOSActions {
 
         //Execute the Single Swipe Action
         Map<String, Object> param = new HashMap<>();
-        param.put("velocity",500);
+        param.put("velocity", 500);
 
         switch (direction) {
             case "Down" -> param.put("direction", "up");
             case "Up" -> param.put("direction", "down");
             case "Left" -> param.put("direction", "right");
             case "Right" -> param.put("direction", "left");
-            case null -> {}
-            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
+            case null -> {
+            }
+            default ->
+                    logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
         driver.executeScript("mobile: swipe", param);
@@ -349,16 +351,18 @@ public class NativeIOSActions {
     public void singleSwipeIntoElement(String direction, By scrollableElement) {
 
         Map<String, Object> param = new HashMap<>();
-        param.put("velocity",500);
-        param.put("elementId",((RemoteWebElement)driver.findElement(scrollableElement)).getId());
+        param.put("velocity", 500);
+        param.put("elementId", ((RemoteWebElement) driver.findElement(scrollableElement)).getId());
 
         switch (direction) {
             case "Down" -> param.put("direction", "up");
             case "Up" -> param.put("direction", "down");
             case "Left" -> param.put("direction", "right");
             case "Right" -> param.put("direction", "left");
-            case null -> {}
-            default -> logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
+            case null -> {
+            }
+            default ->
+                    logErrorStep("Direction value is not correct, it must be Up or Down or Left or Right or null", new Exception());
         }
 
         driver.executeScript("mobile: swipe", param);

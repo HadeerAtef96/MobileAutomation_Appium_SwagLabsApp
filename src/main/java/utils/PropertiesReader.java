@@ -11,7 +11,6 @@ public class PropertiesReader {
 
     public static String filePath = "src/main/resources/settings_mobile.properties";
 
-    @Step
     public static Properties loadConfigurationsIntoSystemProperties() {
         Properties properties = new Properties();
         FileInputStream input = null;
@@ -29,7 +28,7 @@ public class PropertiesReader {
         return properties;
     }
 
-    public static String getPropertiesValue(String key){
+    public static String getPropertiesValue(String key) {
         return System.getProperty(key);
     }
 }

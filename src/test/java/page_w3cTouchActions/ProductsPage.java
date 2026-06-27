@@ -1,5 +1,6 @@
 package page_w3cTouchActions;
 
+import com.github.javafaker.App;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -13,14 +14,14 @@ public class ProductsPage extends _BasePage {
     String productName;
 
     //Constructor
-    public ProductsPage(AppiumDriver driver){
+    public ProductsPage(AppiumDriver driver) {
         super(driver);
         super.initializeLocator();
     }
 
     //Locators
     private By productsPageTitle;
-    private By productNameLocator;
+    private By productNameText;
     private By addToCartButton;
     private By dragButton;
     private By dropButton;
@@ -28,58 +29,72 @@ public class ProductsPage extends _BasePage {
     //Initialize Locators Based on Android or IOS
     @Override
     public void initializeLocator() {
-        if ( driver instanceof AndroidDriver){
+        if (driver instanceof AndroidDriver) {
             productsPageTitle = AppiumBy.xpath("//android.widget.TextView[@text=\"PRODUCTS\"]");
-            productNameLocator = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]".formatted(productName));
+            productNameText = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]".formatted(productName));
             addToCartButton = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]/following-sibling::android.view.ViewGroup[@content-desc=\"test-ADD TO CART\"]".formatted(productName));
             dragButton = AppiumBy.xpath("//android.widget.TextView[@text=\"%s\"]/following-sibling::android.view.ViewGroup[@content-desc=\"test-Drag Handle\"]//android.widget.TextView".formatted(productName));
             dropButton = AppiumBy.accessibilityId("test-Cart drop zone");
-        }
-
-        else if (driver instanceof IOSDriver){
+        } else if (driver instanceof IOSDriver) {
             productsPageTitle = AppiumBy.xpath("//XCUIElementTypeStaticText[@label=\"PRODUCTS\"]");
+            productNameText = AppiumBy.xpath("//XCUIElementTypeStaticText[@label=\"%s\"]".formatted(productName));
+            addToCartButton = AppiumBy.xpath("//XCUIElementTypeStaticText[@label=\"%s\"]/ancestor::XCUIElementTypeOther[@name=\"test-Item\"]//XCUIElementTypeOther[@name=\"ADD TO CART\"]".formatted(productName));
+            dragButton = AppiumBy.xpath("//XCUIElementTypeStaticText[@label=\"%s\"]/ancestor::XCUIElementTypeOther[@name=\"test-Item\"]//XCUIElementTypeOther[@name=\"test-Drag Handle\"]".formatted(productName));
+            dropButton = AppiumBy.accessibilityId("test-Cart drop zone");
         }
 
     }
 
     //Actions
     @Step
-    public ProductsPage addProductToCartByButton(String productName,String direction){
+    public ProductsPage addProductToCartByButton(String productName, String direction) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
-        //we take tap action through utils or w3c touch actions
-        finger.tap(addToCartButton,direction);
+        //we take tap action through utils
+        finger.tap(addToCartButton, direction);
         return this;
     }
 
     @Step
-    public ProductsPage addProductToCartByDragDrop(String productName,String direction){
+    public ProductsPage addProductToCartByDragDrop(String productName, String direction) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to initialize the locators again because we make change in the locator
         initializeLocator();
-        //we take tap action through utils or w3c touch actions
-        finger.dragAndDrop(dragButton,dropButton,direction);
+        //we take tap action through utils
+        finger.dragAndDrop(dragButton, dropButton, direction);
         return this;
     }
 
     @Step
-    public ProductsPage selectProduct(String productName, String direction){
+    public ProductsPage selectProduct(String productName, String direction) {
         //we pass productName from test case, then we convert it from local variable to global variable
         this.productName = productName;
         //we need to re-initialize the locators again because we make change in the locator
         initializeLocator();
-        //we take tap action through utils or w3c touch actions
-        finger.tap(productNameLocator,direction);
+        //we take tap action through utils
+        finger.tap(productNameText, direction);
         return this;
     }
 
     //Validations
     @Step
-    public ProductsPage verifyProductsPageTitleIsDisplayed(){
+    public ProductsPage verifyProductsPageTitleIsDisplayed() {
         Assert.assertTrue(finger.isElementDisplayed(productsPageTitle));
+        return this;
+    }
+
+    @Step
+    public ProductsPage verifyAddToCartButtonIsRemovedFromPage(String productName, String direction) {
+        //we pass productName from test case, then we convert it from local variable to global variable
+        this.productName = productName;
+        //we need to re-initialize the locators again because we make change in the locator
+        initializeLocator();
+        //we take tap action through utils
+        boolean flag = finger.isElementNotDisplayed(addToCartButton, direction);
+        Assert.assertTrue(flag);
         return this;
     }
 
