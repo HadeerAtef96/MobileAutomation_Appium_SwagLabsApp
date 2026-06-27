@@ -32,6 +32,7 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 
 ## Features
 - Creating Cross Platform Framework for Android and IOS "Locators and Actions and Capaiblities"
+- Easy Switching between Android and IOS , only change the platformType and platformVersion before Run
 - Using Fluent Page Object Model for chaining all scenario steps and validations for each page in one line of code
 - Simulating all Mobile Gestures like Tap / DoubleTap/ TapAndHold /Zoom / DragAndDrop / Swipe, with only one command while Auto Scrolling in a given Direction till the Target Element Dispalyed in ViewPort
 - Using W3C Touch Actions for Mobile Gestures Automation similar to Real Finger Movemenets
