@@ -70,7 +70,9 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 - JsonReader
 - PropertiesReader
 
-##📁 Project Structure
+# 📁 Project Structure
+
+```text
 MobileAutomation_Appium_SwagLabsApp
 │
 ├── .github
@@ -84,8 +86,8 @@ MobileAutomation_Appium_SwagLabsApp
 │   │
 │   └── test
 │       ├── java
-│       │   ├── pages
 │       │   ├── actions
+│       │   ├── pages
 │       │   ├── listeners
 │       │   ├── utilities
 │       │   └── testCases
@@ -93,34 +95,45 @@ MobileAutomation_Appium_SwagLabsApp
 │       └── resources
 │           ├── TestData
 │           ├── Properties
-│           └── XML Suites
+│           └── XMLSuites
 │
 ├── pom.xml
 └── README.md
-
-
 ```
-##▶ Running Tests
 
-### Run All Tests - using TestNG XML - on One Platform
-- RunAllTests.xml
+---
 
-### Run All Tests - using TestNG XML - on Both Android & IOS
-- RunAllTests_Android-IOS
+# ▶ Running Tests
 
-### Run Positive Tests or Groups only - using TestNG XML - on One Platform
-- PositiveTestCases.xml
+### 📱 Run All Tests (Single Platform)
 
-### Run Negative Tests or Groups only - using TestNG XML - on One Platform
-- NegativeTestCases.xml
+* `RunAllTests.xml`
 
-##👩‍💻 Author
+### 📱📱 Run All Tests (Android & iOS)
 
-Hadeer Atef
+* `RunAllTests_Android-IOS.xml`
 
-Mobile Automation Test Engineer
+### ✅ Run Positive Test Cases
 
-Java • Appium • TestNG • Selenium • REST Assured
+* `PositiveTestCases.xml`
 
-GitHub:
-https://github.com/HadeerAtef96
+### ❌ Run Negative Test Cases
+
+* `NegativeTestCases.xml`
+
+---
+
+# 👩‍💻 Author
+
+**Hadeer Atef Abdalla**
+
+**Mobile Automation Test Engineer**
+
+**GitHub**
+
+🔗 https://github.com/HadeerAtef96
+
+**Project Repository**
+
+🔗 https://github.com/HadeerAtef96/MobileAutomation_Appium_SwagLabsApp
+
