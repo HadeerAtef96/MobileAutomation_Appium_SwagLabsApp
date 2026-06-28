@@ -1,6 +1,8 @@
 # SwagLabs App Mobile Automation Project
 
 Mobile Test Automation Framework developed using Java and Appium to Automate Testing of SwagLabs Application on Android and IOS
+<img width="412" height="344" alt="image" src="https://github.com/user-attachments/assets/97e63da0-28d8-4aba-a079-8990e8c7c83f" />
+
 
 ## Project Overview
 
@@ -8,6 +10,8 @@ This Project automates SwagLabs E-commerce Application on Android and IOS with P
 
 ## Allure Report
 ### Generate and Open Allure Report easily in one step by running Open_Allure_Report.bat file
+<img width="1920" height="1080" alt="Run Details Allure Report" src="https://github.com/user-attachments/assets/f45faa00-67aa-4cd8-8d0e-52ca72cff0bd" />\
+<img width="1920" height="884" alt="Test Result Allure Report" src="https://github.com/user-attachments/assets/b6e23a57-76e9-4d9f-946d-ace23bd24aeb" />
 
 ### Positive Tests & Negative Tests
 
